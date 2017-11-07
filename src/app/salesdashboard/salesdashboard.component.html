@@ -1,0 +1,151 @@
+<!-- dashboards/dashboard -->
+<div class="row uptm-cols">
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-facebook color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        {{todaySales}} 
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Today Leads 
+                    </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-user"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-warning color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        {{salesleads.length}}
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Total Leads 
+                    </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-user-follow"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-success color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        {{pendingSales}}
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Pending Leads
+                    </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-briefcase"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-info color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        {{convertedSales}}
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Converted Leads 
+                    </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-badge"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-xl-6">
+        <div class="widget dashcols">
+            <div class="row">
+                <div class="col">
+                    <!-- <div class="dropdown pull-right">
+                        <button type="button" class="btn btn-default btn-rounded btn-outline dropdown-toggle" data-toggle="dropdown">
+					        Filter
+						</button>
+                        <div class="dropdown-menu dropdown-menu-right from-right">
+                            <a class="dropdown-item">This week</a>
+                            <a class="dropdown-item">This month</a>
+                            <a class="dropdown-item">This year</a>
+                            <a class="dropdown-item">Today</a>
+                        </div>
+                    </div> -->
+                    <div class="title">Sales lead revenue</div>
+                    <div class="description">Total leads vers Converted leads</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div id="line-chart-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xl-6">
+        <div class="widget dashcols">
+            <div class="row">
+                <div class="col">
+                    <div class="title">Latest Sales Lead</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">			
+						<table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <!-- <th>Phone</th> -->
+                                <th>Country</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let sales of salesleads | slice:0:7">
+                                <td>{{sales.first_name}} {{sales.first_name}}</td>
+                                <td>{{sales.email}}</td>
+                                <!-- <td>{{sales.phone}}</td> -->
+                                <td>{{sales.country_name}}</td>
+                            </tr>
+                            <tr *ngIf="salesleads==''">
+                                <td colspan="3">No records found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+					
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

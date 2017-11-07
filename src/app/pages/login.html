@@ -1,0 +1,60 @@
+<div class="sample-form-4 unlock-account">
+    <h3>Sign In - Salvum</h3>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" style="margin-top: 60px;">
+        <div class="form-group" [ngClass]="{'has-danger': form.get('userType').touched && form.get('userType').errors}">
+            <label class="form-control-label">User type</label>  
+            <div class="input-group">
+                <span class="input-group-addon">
+                <i class="sli-user"></i>
+                </span>                
+            <select class="custom-select form-control" formControlName="userType" name="userType" [(ngModel)]="userType"  [ngClass]="{'form-control-danger': form.get('userType').touched && form.get('userType').errors}">
+                <option value="">Choose user type</option>
+                <option value="admin">Admin</option>
+                <option value="salesrep">Sales Rep</option>
+            </select>
+            </div>
+            <small *ngIf="form.get('userType').touched && form.get('userType').errors && form.get('userType').hasError('required')" class="form-control-feedback text-danger">Please select your user type</small>
+            
+        </div>
+        <div class="form-group" [ngClass]="{'has-danger': form.get('email').touched && form.get('email').errors}">
+            <label>Email</label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                    <i class="sli-envelope"></i>
+                    </span>
+                    <input type="email" class="form-control" placeholder="Email" name="email" formControlName="email" [ngClass]="{'form-control-danger': form.get('email').touched && form.get('email').errors}">
+                </div>
+                <small *ngIf="form.get('email').touched && form.get('email').errors && form.get('email').hasError('email')" class="form-control-feedback text-danger">Please enter a valid email</small>
+        </div>
+        <div class="form-group" [ngClass]="{'has-danger': form.get('password').touched && form.get('password').errors}">
+            <label>Your password</label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                    <i class="sli-lock"></i>
+                    </span>
+                    <input type="password" class="form-control" placeholder="Password" name="password" formControlName="password" [ngClass]="{'form-control-danger': form.get('password').touched && form.get('password').errors}">
+                </div>
+                <small *ngIf="form.get('password').touched && form.get('password').errors && form.get('password').hasError('required')" class="form-control-feedback text-danger">Please enter a valid password</small>
+        </div>
+        <div class="form-group">
+            <label class="custom-control custom-checkbox" style="display: block;float: left;">
+                <input type="checkbox" class="custom-control-input">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Remember me</span>
+            </label>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-rounded btn-lg" type="submit">Login</button>
+        </div>
+        <div class="links">
+            <p>Forgot password?
+                <a routerLink="/pages/reset-password">Reset here</a>
+            </p>
+            <p>New user?
+                <a routerLink="/frontindex/pricing">Sign up here</a>
+            </p>
+        </div>
+    </form>
+</div>
+<div class="clearfix"></div>

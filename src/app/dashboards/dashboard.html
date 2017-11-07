@@ -1,0 +1,533 @@
+<!-- dashboards/dashboard -->
+<div class="row uptm-cols">
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-facebook color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        {{users.length}}
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Users </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-user"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-warning color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        {{paidUsers.length}} </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Paid Users </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-user-follow"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-success color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        1,667 </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Total Jobs </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-briefcase"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-info color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        {{packages}} 
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Membership Packages </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-badge"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-xl-6">
+        <div class="widget dashcols">
+            <div class="row">
+                <div class="col">
+                    <!-- <div class="dropdown pull-right">
+                        <button type="button" class="btn btn-default btn-rounded btn-outline dropdown-toggle" data-toggle="dropdown">
+                            Filter
+                    	</button>
+                        <div class="dropdown-menu dropdown-menu-right from-right">
+                            <a class="dropdown-item">This week</a>
+                            <a class="dropdown-item">This month</a>
+                            <a class="dropdown-item">This year</a>
+                            <a class="dropdown-item">Today</a>
+                        </div>
+                    </div> -->
+                    <div class="title">Users revenue</div>
+                    <div class="description">Most important markets</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div id="line-chart-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xl-6">
+        <div class="widget dashcols">
+            <div class="row">
+                <div class="col">
+                    <!--div class="dropdown pull-right">
+                        <button type="button" class="btn btn-default btn-flat btn-circle">
+        <i class="sli-pencil"></i>
+	</button>
+                        <button type="button" class="btn btn-default btn-flat btn-circle">
+        <i class="sli-action-redo"></i>
+    </button>
+                    </div-->
+                    <div class="title">Latest Users</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+					
+						<table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Email ID</th>
+                                <th>Package</th>
+                            </tr>
+                        </thead> 
+                        <tbody>
+                            <tr *ngFor="let user of users | slice:0:4">
+                                <td>
+                                    <img *ngIf="user.image == ''" alt="avatar" class="max-w-40 rounded-circle" src="/assets/images/defaultuser.jpg" style="border: 1px solid #ccc;">
+									<img *ngIf="user.image !== ''" alt="avatar" class="max-w-40 rounded-circle" src="{{APIURL}}/images/{{user.image}}">
+                                </td>
+                                <td>{{user.name}}</td>
+                                <td>{{user.email}}</td>
+                                <td>{{user.package_price !== '0' ? 'Professional' : 'Basic'}}</td>
+                            </tr>
+                            <tr *ngIf="users==''">
+                                <td colspan="4">No users found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+					
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-md-12 col-xl-8">
+        <div class="widget dashcols">
+            <div class="row">
+                <div class="col">
+                    <!-- <div class="dropdown pull-right">
+                        <button type="button" class="btn btn-default btn-rounded btn-outline dropdown-toggle" data-toggle="dropdown">
+                            Filter
+                    	</button>
+                        <div class="dropdown-menu dropdown-menu-right from-right">
+                            <a class="dropdown-item">This week</a>
+                            <a class="dropdown-item">This month</a>
+                            <a class="dropdown-item">This year</a>
+                            <a class="dropdown-item">Today</a>
+                        </div>
+                        <button type="button" class="btn btn-default btn-flat btn-circle" data-toggle="dropdown">
+        <i class="sli-options-vertical"></i>
+    </button>
+                        <div class="dropdown-menu dropdown-menu-right from-right">
+                            <a class="dropdown-item">This week</a>
+                            <a class="dropdown-item">This month</a>
+                            <a class="dropdown-item">This year</a>
+                            <a class="dropdown-item">Today</a>
+                        </div>
+                    </div> -->
+                    <div class="title">Global sales</div>
+                    <div class="description">Yearly sales evolution</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div id="bar-chart-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-xl-4">
+        <div class="widget dashcols">
+            <div class="row">
+                <div class="col">
+                    
+                    <div class="title">Space Management</div>
+                    <div class="description"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="text-widget-1 bg-facebook color-light text-right">
+                        <div class="row flex-items-xs-middle">
+                            <div class="col">
+                                <div class="title">
+                                    1480 MB </div>
+                            </div>
+                        </div>
+                        <div class="row flex-items-xs-middle">
+                            <div class="col">
+                                <div class="subtitle">
+                                    Server Space </div>
+                            </div>
+                        </div>
+                        <div class="icon-left">
+                            <i class="fa fa-database"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="text-widget-1 bg-twitter color-light text-right">
+                        <div class="row flex-items-xs-middle">
+                            <div class="col">
+                                <div class="title">
+                                    549 MB</div>
+                            </div>
+                        </div>
+                        <div class="row flex-items-xs-middle">
+                            <div class="col">
+                                <div class="subtitle">
+                                    Package Space </div>
+                            </div>
+                        </div>
+                        <div class="icon-left">
+                            <i class="fa fa-database"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="text-widget-1 bg-success color-light text-right">
+                        <div class="row flex-items-xs-middle">
+                            <div class="col">
+                                <div class="title">
+                                    350MB </div>
+                            </div>
+                        </div>
+                        <div class="row flex-items-xs-middle">
+                            <div class="col">
+                                <div class="subtitle">
+                                    Consume Space </div>
+                            </div>
+                        </div>
+                        <div class="icon-left">
+                            <i class="fa fa-database"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-lg-6">
+        <div class="widget dashcols">
+            <div class="row">
+                <div class="col">
+                    
+                    <div class="title">Sales Rep</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="finance-widget-1">
+                        <table class="table table-unbordered table-striped">
+                            <thead>
+								<tr>
+									<th>Name</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							
+							<tbody> 
+                                <tr *ngFor="let sales of salesrep | slice:0:7">
+                                    <td class="ticker"> {{sales.first_name}} {{sales.last_name}} </td>
+                                    <td class="numbers"> 
+                                    <span class="badge badge-sm badge-{{sales.status=='1' ? 'success' : 'danger'}}">{{sales.status=='1' ? 'Activated' : 'Blocked'}}</span>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="salesrep==''">
+                                    <td colspan="2">No salesrep found.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <div class="widget dashcols">
+            <div class="row">
+                <div class="col">
+                    
+                    <div class="title">Sales Lead</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+					<div class="finance-widget-1">
+						<table class="table table-unbordered table-striped">
+							<thead>
+								<tr>
+									<th>Name </th>
+									<th>State </th>
+									<th align="right">Generated Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let saleslead of salesleads | slice:0:7">
+									<td>
+										{{saleslead.first_name}} {{saleslead.last_name}} 
+									</td>
+									<td>
+										{{saleslead.state_name}} 
+									</td>
+									<td>
+                                        <span class="light pull-right">
+											{{saleslead.date_created | date }}
+										</span>
+									</td>
+								</tr>
+                                <tr *ngIf="salesleads==''">
+                                    <td colspan="3">No salesleads found.</td>
+                                </tr>
+							</tbody>
+						</table>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row hidden-md-down">
+    <div class="col">
+        <div class="widget dashcols">
+            <div class="row">
+                <div class="col">
+                    <!-- <div class="pull-right">
+					<div class="dropdown">
+                        <button class="btn btn-primary btn-outline btn-rounded">
+		Action
+	</button>
+                        
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary btn-outline btn-rounded dropdown-toggle" data-toggle="dropdown" type="button">
+                            Options
+                        </button>
+                        <div class="dropdown-menu">
+                            <h6 class="dropdown-header">Dropdown header</h6>
+                            <a class="dropdown-item">Action</a>
+                            <a class="dropdown-item">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item disabled">Disabled link</a>
+                            <a class="dropdown-item">Something else here</a>
+                        </div>
+                    </div>
+						
+						
+                    </div> -->
+                    <div class="title">Latest Companies List</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="table-widget-4">
+                        <table class="table table-unbordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Company Name</th>
+                                    <th>Address</th>
+                                    <th>Corporate Number</th>
+                                    <th>Owner Name</th>
+                                    <th>Join Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    
+                                    <td>
+                                        1</td>
+                                    <td>
+                                        Addidas </td>
+									<td>
+                                        USA</td>	
+                                    <td>
+                                        726 </td>
+                                    <td>
+                                        Jane Smith  </td>
+                                    <td>
+                                        <span class="light">
+											14-05-2017
+										</span>
+									</td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>
+                                        2 </td>
+                                    <td>
+                                        Nike</td>
+									<td>
+                                        USA</td>	
+                                    <td>
+                                       432 </td>
+                                    <td>
+                                         Lucas Johnson </td>
+                                    <td>
+                                        <span class="light">
+											14-05-2017
+										</span> 
+									</td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>
+                                        3</td>
+                                    <td>
+                                        Puma</td>
+									<td>
+                                        USA</td>	
+                                    <td>
+                                       875 </td>
+                                    <td>
+                                         Michael Smith </td>
+                                    <td>
+                                         <span class="light">
+											14-05-2017
+										</span> 
+									</td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>
+                                        4</td>
+                                    <td>
+                                        Fcuk</td>
+									<td>
+                                        USA</td>	
+                                    <td>
+                                        921 </td>
+                                    <td>
+                                         Andrew Peters </td>
+                                    <td>
+                                         <span class="light">
+											14-05-2017
+										</span>
+									</td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>
+                                        5</td>
+                                    <td>
+                                        U.S Polo</td>
+									<td>
+                                        USA</td>	
+                                    <td>
+                                        586 </td>
+                                    <td>
+                                         Peter Jackson </td>
+                                    <td>
+                                        <span class="light">
+											14-05-2017
+										</span>
+									</td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>
+                                        6</td>
+                                    <td>
+                                        Tommy</td>
+									<td>
+                                        USA</td>	
+                                    <td>
+                                        500 </td>
+										
+                                    <td>
+                                         Melvin White </td>
+                                    <td>
+                                         <span class="light">
+											14-05-2017
+										</span>
+									</td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>
+                                        7</td>
+                                    <td>
+                                        Lee </td>
+									<td>
+                                        USA</td>	
+                                    <td>
+                                        651 </td>
+                                    <td>
+                                         Gladys Doe  </td>
+                                    <td>
+                                         <span class="light">
+											14-05-2017
+										</span>
+									</td>
+                                </tr>
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end dashboards/dashboard -->

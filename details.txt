@@ -1,0 +1,5 @@
+this command for create new file in angular projects
+
+E:\krishan-projects\angular>ng generate component pagename
+
+ng serve -- for compile

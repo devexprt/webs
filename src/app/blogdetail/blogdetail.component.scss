@@ -1,0 +1,44 @@
+@import "../styles/_bread";
+.blog-post img {
+    width: 100%;
+    height: auto;
+}.blog-post .date {
+    float: left;
+    width: 80px;
+    padding: 10px;
+    background: #439FE0;
+    color: #fff;
+    font-size: 20px;
+    line-height: 22px;
+    text-align: center;
+    margin-top: 25px;
+    margin-right: 15px;
+    font-weight: 900;
+    border-radius: 7px;
+}.blog-post .date span {
+    display: block;
+    font-size: 12px;
+}.blog-post h4 {
+    padding-top: 25px;
+}
+
+.blog-post h4, .blog-post .post-meta {
+    margin-left: 95px;
+    font-size: 29px;
+    line-height: 29px;
+}.blog-post h4 a, .blog-post .post-meta a {
+    color: #69696E;
+    font-weight: 900;
+}.blog-post .post-meta {
+    padding-left: 0;
+    list-style-type: none;
+    font-size: 13px;
+}
+.white{ background:#fff !important; }
+ul.post-meta + p {
+    margin-bottom: 30px;
+}
+
+.blog-post p {
+    line-height: 26px;
+}

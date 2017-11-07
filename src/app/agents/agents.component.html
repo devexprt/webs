@@ -1,0 +1,157 @@
+<!-- tables/datatable -->
+
+<div class="row">
+    <div class="col">
+        <div class="widget">
+            <div class="row">
+                <div class="col">
+					<div class="col-md-12">
+					<button type="button" class="btn btn-primary btn-outline pull-right" data-toggle="modal" data-target="#add-agent" style="margin-bottom:10px;">
+						Add Agent
+					</button>
+					</div>
+					
+                    <table [mfData]="agents" #mf="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered packages-features-table" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><mfDefaultSorter by="name">Name</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="email">Email</mfDefaultSorter></th>
+                                <th>Status</th>
+                                <th><mfDefaultSorter by="created_on">Created Date</mfDefaultSorter></th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let agent of mf.data; let i = index ">
+                                <td>{{i+1}}</td>
+                                <td>{{agent.name}}</td>
+                                <td>{{agent.email}}</td>
+                                <td>
+                                	<span class="badge badge-sm badge-{{agent.status=='1' ? 'success' : 'danger'}}">{{agent.status=='1' ? 'Active' : 'Block'}}</span>
+                                </td>
+                                <td>{{agent.created_on | date:'medium'}}</td>
+                                <td>
+									<button class="btn btn-warning btn-circle btn-xs" data-original-title="Edit" data-placement="top" data-toggle="tooltip" type="button" (click) = "editPopup(agent._id,agent.name,agent.email,agent.status,agent.password)">
+										<i class="sli-pencil"></i>
+									</button>
+									<button class="btn btn-danger btn-circle btn-xs" type="button" data-toggle="modal" data-target="#remove" (click) = "deleteAgent(i, agent._id)">
+										<i class="sli-trash"></i>
+									</button>
+								</td>
+                            </tr>
+                            <tr *ngIf="agents==''">
+                                <td colspan="4">No records found.</td>
+                            </tr> 
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" class="modal fade" id="add-agent" role="dialog" tabindex="-1" style="top: 10%">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Agent</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form3" (ngSubmit)="addAgent()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('name').touched && form3.get('name').errors}">
+                        <label>Name*</label>
+                        <!-- <input type="hidden" name="user_type" formControlName="user_type" [(ngModel)] = "user_type">
+                        <input type="hidden" name="status" formControlName="status" [(ngModel)] = "status"> -->
+                        <input class="form-control" placeholder="Enter Name" type="text" name="name" formControlName="name" [ngClass]="{'form-control-danger': form3.get('name').touched && form3.get('name').errors}">
+                        <small *ngIf="form3.get('name').touched && form3.get('name').errors && form3.get('name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid name</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('email').touched && form3.get('email').errors}">
+                        <label>Email*</label>
+                        <input class="form-control" placeholder="Enter Email" type="email" name="email" formControlName="email" [ngClass]="{'form-control-danger': form3.get('email').touched && form3.get('email').errors}">
+                        <small *ngIf="form3.get('email').touched && form3.get('email').errors && form3.get('email').hasError('required')" class="form-control-feedback text-danger">Please enter a valid email</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('password').touched && form3.get('password').errors}">
+                        <label>Password*</label>
+                        <input class="form-control" placeholder="Enter Password" type="password" name="password" [(ngModel)]="password" formControlName="password"  [ngClass]="{'form-control-danger': form3.get('password').touched && form3.get('password').errors}">
+                        <small *ngIf="form3.get('password').touched && form3.get('password').errors && form3.get('password').hasError('required')" class="form-control-feedback text-danger">Please enter a valid password</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('confirm_password').touched && form3.get('confirm_password').errors}">
+                        <label>Confirm Password*</label>
+                        <input class="form-control" placeholder="Enter Password" type="password" [(ngModel)]="confirm_password" name="confirm_password" formControlName="confirm_password" [ngClass]="{'form-control-danger': form3.get('confirm_password').touched && form3.get('confirm_password').errors}">
+                        <small *ngIf="form3.get('confirm_password').touched && form3.get('confirm_password').errors && form3.get('confirm_password').hasError('required')" class="form-control-feedback text-danger">Please enter a valid password</small>
+                        <small class="form-control-feedback text-danger" *ngIf="password!==confirm_password">Passwords don't match</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="addAgentCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit" [disabled]="password!==confirm_password">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<button style="display: none;" id="openEditModal" data-target="#edit-agent" data-toggle="modal"></button>
+
+<div aria-hidden="true" class="modal fade" id="edit-agent" role="dialog" tabindex="-1" style="top: 10%">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Agent</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form4" (ngSubmit)="editAgent()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form4.get('name').touched && form4.get('name').errors}">
+                        <label>Name*</label>
+                        <input type="hidden" name="id" formControlName="id" [(ngModel)] = "id">
+                        <input class="form-control" placeholder="Enter Name" type="text" name="name" [(ngModel)] = "name" formControlName="name" [ngClass]="{'form-control-danger': form4.get('name').touched && form4.get('name').errors}">
+                        <small *ngIf="form4.get('name').touched && form4.get('name').errors && form4.get('name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid name</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form4.get('email').touched && form4.get('email').errors}">
+                        <label>Email*</label>
+                        <input class="form-control" placeholder="Enter Email" type="email" name="email" [(ngModel)] = "email" formControlName="email" [ngClass]="{'form-control-danger': form4.get('email').touched && form4.get('email').errors}">
+                        <small *ngIf="form4.get('email').touched && form4.get('email').errors && form4.get('email').hasError('required')" class="form-control-feedback text-danger">Please enter a valid email</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form4.get('password').touched && form4.get('password').errors}">
+                        <label>Password*</label>
+                        <input class="form-control" placeholder="Enter Password" type="password" name="password" [(ngModel)]="password" formControlName="password"  [ngClass]="{'form-control-danger': form4.get('password').touched && form4.get('password').errors}">
+                        <small *ngIf="form4.get('password').touched && form4.get('password').errors && form4.get('password').hasError('required')" class="form-control-feedback text-danger">Please enter a valid password</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form4.get('confirm_password').touched && form4.get('confirm_password').errors}">
+                        <label>Confirm Password*</label>
+                        <input class="form-control" placeholder="Enter Password" type="password" [(ngModel)]="confirm_password" name="confirm_password" formControlName="confirm_password" [ngClass]="{'form-control-danger': form4.get('confirm_password').touched && form4.get('confirm_password').errors}">
+                        <small *ngIf="form4.get('confirm_password').touched && form4.get('confirm_password').errors && form4.get('confirm_password').hasError('required')" class="form-control-feedback text-danger">Please enter a valid password</small>
+                        <small class="form-control-feedback text-danger" *ngIf="password!==confirm_password">Passwords don't match</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form4.get('status').touched && form4.get('status').errors}">
+                        <label>Status*</label>
+                        <select class="custom-select form-control" name="status" formControlName="status" [(ngModel)] = "status" [ngClass]="{'form-control-danger': form4.get('status').touched && form4.get('status').errors}">
+                            <option value="">Choose an option</option>
+                            <option value="1">Active</option>
+                            <option value="0">Block</option>    
+                        </select>
+                    <small *ngIf="form4.get('status').touched && form4.get('status').errors && form4.get('status').hasError('required')" class="form-control-feedback text-danger">Please select a valid status</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="editAgentCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit" [disabled]="password!==confirm_password">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

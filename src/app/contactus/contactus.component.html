@@ -1,0 +1,70 @@
+<section class="page-head bg-img p-y-md" >
+	<div class="container pad-0">
+		<div class="row c2 h-bg text-white">
+			<div class="col-sm-6">
+				<h1 class="h3 f-w-900 m-b-0">Contact Us</h1>
+			</div>
+			<div class="col-sm-6 text-right">
+				<ol class="breadcrumb m-b-0 pull-right">
+					<li>
+						<a routerLink="/" class="inverse">Home</a>
+					</li>
+					<li class="active text-white">Contact Us</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</section>
+<section id="about_description">
+	<div class="container pad-0">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="title-row">
+					<h2 class="section_title_blue text-center">Get In<span> Touch</span></h2>
+				</div>
+					<p class="txt-cont-h">Customer satisfaction is our top priority, Don’t hesitate to contact us</p> 
+			</div>
+			<div class="row m-t-40">
+				<div class="col-md-8 contactus-wrap m-ns-cont">
+					<form [formGroup]="form1" (ngSubmit)="contactUs()">
+						<div class="utl-contact-des">
+						<input class="input-left" type="text" placeholder="Name" name="name" style="border-right:0" formControlName="name" [ngClass]="{'form-control-danger': form1.get('name').touched && form1.get('name').errors}">
+
+						<input class="input-right" type="text" placeholder="E-mail" style="border-left:0" name="email" formControlName="email" [ngClass]="{'form-control-danger': form1.get('email').touched && form1.get('email').errors}">
+
+						<small *ngIf="form1.get('name').touched && form1.get('name').errors && form1.get('name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid name</small>
+
+                  		<small *ngIf="form1.get('email').touched && form1.get('email').errors && form1.get('email').hasError('email')" class="form-control-feedback text-danger">Please enter a valid email</small>
+						</div>
+						<input type="text" name="subject" placeholder="Subject" formControlName="subject" [ngClass]="{'form-control-danger': form1.get('subject').touched && form1.get('subject').errors}">
+                  		<small *ngIf="form1.get('subject').touched && form1.get('subject').errors && form1.get('subject').hasError('required')" class="form-control-feedback text-danger">Please enter a valid subject</small>
+                  		<div class="clearfix"></div>
+						<textarea placeholder="Message" name="message" rows="8" formControlName="message" [ngClass]="{'form-control-danger': form1.get('message').touched && form1.get('message').errors}"></textarea>
+						<small *ngIf="form1.get('message').touched && form1.get('message').errors && form1.get('message').hasError('required')" class="form-control-feedback text-danger">Please enter a valid message</small>
+						<div class="clearfix"></div>
+						<button type="submit" class="btn btn-green text-uppercase smooth-scroll ">Submit Now</button>
+					</form>
+				</div>
+				<div class="col-md-4 col-sm-6">
+					<ul class="utl-cnt">
+						
+						<li>
+							<i class="fa fa-paper-plane" aria-hidden="true"></i>
+							<div class="overflow-contac">
+								<p>OUR  SCHEDULE<br />
+								Open Monday To Saturday</p>
+							</div>
+						</li>
+						<li>
+							<i class="fa fa-phone"></i>
+							<div class="overflow-contac">
+								<em style="padding-bottom:8px;">Phone: +9876 543 210</em>
+								<em>Email: info@salvum.net</em>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

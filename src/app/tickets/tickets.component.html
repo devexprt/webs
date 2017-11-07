@@ -1,0 +1,217 @@
+<div class="row">
+    <div class="col">
+        <div class="widget">
+            <div class="row">
+            <!-- admin tickets -->
+                <div class="col" *ngIf = "SupportType == 'admin'">
+					<div class="col-md-12">
+					<button type="button" class="btn btn-primary btn-outline pull-right" data-toggle="modal" data-target="#add-ticket" style="margin-bottom:10px;">
+						Add Ticket
+					</button>
+					</div>
+					
+                    <table [mfData]="tickets" #mf="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered packages-features-table" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><mfDefaultSorter by="title">Title</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="agent">Agent</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="user">User</mfDefaultSorter></th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th><mfDefaultSorter by="created_on">Date Created</mfDefaultSorter></th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ticket of mf.data; let i = index ">
+                                <td>{{i+1}}</td>
+                                <td>{{ticket.title}}</td>
+                                <td>{{ticket.agent_name}}</td>
+                                <td>{{ticket.user_name}}</td>
+                                <td>
+                                	<span class="badge badge-sm badge-{{ticket.priority=='low' ? 'danger' : (ticket.priority=='normal' ? 'info' : 'success')}}">{{ticket.priority}}</span>
+                                </td>
+                                <td>
+                                	<span class="badge badge-sm badge-{{ticket.status=='pending' ? 'danger' : (ticket.status=='open' ? 'info' : 'success')}}">{{ticket.status}}</span>
+                                </td>
+                                <td>{{ticket.created_on | date: 'medium'}}</td>
+                                <td>
+									<button routerLink = "/support/ticketdetails/{{ticket._id}}" class="btn btn-warning btn-circle btn-xs" data-original-title="Details" data-placement="top" data-toggle="tooltip" type="button">
+										<i class="sli-pencil"></i>
+									</button>
+									
+									<button *ngIf="ticket.status == 'closed'" (click) = "changeTicketStatus('open',ticket._id)" class="btn btn-success btn-circle btn-xs" data-original-title="Details" data-placement="top" data-toggle="tooltip" type="button">
+										<i class="sli-refresh"></i>
+									</button>
+								</td>
+                            </tr>
+                            <tr *ngIf="tickets==''">
+                                <td colspan="8">No tickets found.</td>
+                            </tr> 
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="8"> 
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- agent tickets -->
+                <div class="col" *ngIf = "SupportType == 'agent'">
+					<div class="col-md-12">
+					<button type="button" class="btn btn-primary btn-outline pull-right" data-toggle="modal" data-target="#add-ticket" style="margin-bottom:10px;">
+						Add Ticket
+					</button>
+					</div>
+					
+                    <table [mfData]="tickets" #mf="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered packages-features-table" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><mfDefaultSorter by="title">Title</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="user">User</mfDefaultSorter></th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th><mfDefaultSorter by="created_on">Date Created</mfDefaultSorter></th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ticket of mf.data; let i = index ">
+                                <td>{{i+1}}</td>
+                                <td>{{ticket.title}}</td>
+                                <td>{{ticket.user_name}}</td>
+                                <td>
+                                	<span class="badge badge-sm badge-{{ticket.priority=='low' ? 'danger' : (ticket.priority=='normal' ? 'info' : 'success')}}">{{ticket.priority}}</span>
+                                </td>
+                                <td>
+                                	<span class="badge badge-sm badge-{{ticket.status=='pending' ? 'danger' : (ticket.status=='open' ? 'info' : 'success')}}">{{ticket.status}}</span>
+                                </td>
+                                <td>{{ticket.created_on | date: 'medium'}}</td>
+                                <td>
+									<button routerLink = "/support/ticketdetails/{{ticket._id}}" class="btn btn-warning btn-circle btn-xs" data-original-title="Details" data-placement="top" data-toggle="tooltip" type="button">
+										<i class="sli-pencil"></i>
+									</button>
+									
+									<button *ngIf="ticket.status == 'closed'" (click) = "changeTicketStatus('open',ticket._id)" class="btn btn-success btn-circle btn-xs" data-original-title="Details" data-placement="top" data-toggle="tooltip" type="button">
+										<i class="sli-refresh"></i>
+									</button>
+								</td>
+                            </tr>
+                            <tr *ngIf="tickets==''">
+                                <td colspan="8">No tickets found.</td>
+                            </tr> 
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="8"> 
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- user tickets -->
+                <div class="col" *ngIf = "SupportType == 'user'">
+					<div class="col-md-12">
+					<button type="button" class="btn btn-primary btn-outline pull-right" data-toggle="modal" data-target="#add-ticket" style="margin-bottom:10px;">
+						Add Ticket
+					</button>
+					</div>
+					
+                    <table [mfData]="tickets" #mf="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered packages-features-table" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><mfDefaultSorter by="title">Title</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="agent_name">Agent</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="priority">Priority</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="status">Status</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="created_on">Date Created</mfDefaultSorter></th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ticket of mf.data; let i = index ">
+                                <td>{{i+1}}</td>
+                                <td>{{ticket.title}}</td>
+                                <td>{{ticket.agent_name}}</td>
+                                <td>
+                                	<span class="badge badge-sm badge-{{ticket.priority=='low' ? 'danger' : (ticket.priority=='normal' ? 'info' : 'success')}}">{{ticket.priority}}</span>
+                                </td>
+                                <td>
+                                	<span class="badge badge-sm badge-{{ticket.status=='pending' ? 'danger' : (ticket.status=='open' ? 'info' : 'success')}}">{{ticket.status}}</span>
+                                </td>
+                                <td>{{ticket.created_on | date: 'medium'}}</td>
+                                <td>
+									<button routerLink = "/support/ticketdetails/{{ticket._id}}" class="btn btn-warning btn-circle btn-xs" data-original-title="Details" data-placement="top" data-toggle="tooltip" type="button">
+										<i class="sli-pencil"></i>
+									</button>
+
+									<button *ngIf="ticket.status == 'closed'" (click) = "changeTicketStatus('open',ticket._id)" class="btn btn-success btn-circle btn-xs" data-original-title="Details" data-placement="top" data-toggle="tooltip" type="button">
+										<i class="sli-refresh"></i>
+									</button>
+								</td>
+                            </tr>
+                            <tr *ngIf="tickets==''">
+                                <td colspan="8">No tickets found.</td>
+                            </tr> 
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="8"> 
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div aria-hidden="true" class="modal fade" id="add-ticket" role="dialog" tabindex="-1" style="top: 10%">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Ticket</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form4" (ngSubmit)="addTickets()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form4.get('title').touched && form4.get('title').errors}">
+                        <label>Title*</label>
+                        <input class="form-control" placeholder="Enter Title" type="text" [(ngModel)]="title" name="title" formControlName="title" [ngClass]="{'form-control-danger': form4.get('title').touched && form4.get('title').errors}">
+                        <small *ngIf="form4.get('title').touched && form4.get('title').errors && form4.get('title').hasError('required')" class="form-control-feedback text-danger">Please enter a valid title</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form4.get('priority').touched && form4.get('priority').errors}">
+                        <label>Priority*</label>
+                        <select class="custom-select form-control" name="priority" formControlName="priority" [ngClass]="{'form-control-danger': form4.get('priority').touched && form4.get('priority').errors}">
+                            <option value="">Choose an option</option>
+                            <option value="low">Low</option>
+                            <option value="normal">Normal</option>
+                            <option value="high">High</option>     
+                        </select>
+                    <small *ngIf="form4.get('priority').touched && form4.get('priority').errors && form4.get('priority').hasError('required')" class="form-control-feedback text-danger">Please select a valid priority</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form4.get('message').touched && form4.get('message').errors}">
+                        <label>Message*</label>
+                        <textarea class="form-control" placeholder="Enter Message"  name="message" formControlName="message" [ngClass]="{'form-control-danger': form4.get('message').touched && form4.get('message').errors}"></textarea>
+                        <small *ngIf="form4.get('message').touched && form4.get('message').errors && form4.get('message').hasError('required')" class="form-control-feedback text-danger">Please enter a valid message</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="addFaqsCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

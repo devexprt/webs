@@ -1,0 +1,189 @@
+<div class="widget">
+
+<div class="col">
+	
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" data-target="#user-profile-tabs-1">Profile Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" data-target="#user-profile-tabs-2">Change Password</a>
+                </li>
+            </ul>
+            <div class="tab-content widget">
+                <div role="tabpanel" class="tab-pane active" id="user-profile-tabs-1">
+                <form [formGroup]="form" (ngSubmit)="updateProfile()">
+                <div class="row">
+                    <div class="col-12 col-lg-4 col-xl-3">
+                        <div class="form-group" [ngClass]="{'has-danger': form.get('fname').touched && form.get('fname').errors}">
+                            <label class="form-control-label">First Name</label>
+                            <input type="text" class="form-control" name="fname" [(ngModel)]="fname" formControlName="fname" [ngClass]="{'form-control-danger': form.get('fname').touched && form.get('fname').errors}">
+                            <input type="hidden" name="id" [(ngModel)]="id" formControlName="id">
+                            <small *ngIf="form.get('fname').touched && form.get('fname').errors && form.get('fname').hasError('required')" class="form-control-feedback text-danger">Please enter a valid First Name</small>
+                            <small *ngIf="form.get('fname').touched && form.get('fname').errors && form.get('fname').hasError('fname')" class="form-control-feedback text-danger">Please enter a valid First Name</small>
+                        </div>
+                    </div>
+					<div class="col-12 col-lg-4 col-xl-3">
+                        <div class="form-group" [ngClass]="{'has-danger': form.get('lname').touched && form.get('lname').errors}">
+                            <label class="form-control-label">Last Name</label>
+                            <input type="text" class="form-control" name="lname" [(ngModel)]="lname" formControlName="lname" [ngClass]="{'form-control-danger': form.get('lname').touched && form.get('lname').errors}">
+                            <small *ngIf="form.get('lname').touched && form.get('lname').errors && form.get('lname').hasError('required')" class="form-control-feedback text-danger">Please enter a valid Last Name</small>
+                            <small *ngIf="form.get('lname').touched && form.get('lname').errors && form.get('lname').hasError('lname')" class="form-control-feedback text-danger">Please enter a valid Last Name</small>
+                        </div>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col-12 col-lg-4 col-xl-3">
+                        <div class="form-group" [ngClass]="{'has-danger': form.get('email').touched && form.get('email').errors}">
+                            <label class="form-control-label">Email</label>
+                            <input type="email" class="form-control" name="email" [(ngModel)]="email" formControlName="email" [ngClass]="{'form-control-danger': form.get('email').touched && form.get('email').errors}">
+                            <small *ngIf="form.get('email').touched && form.get('email').errors && form.get('email').hasError('required')" class="form-control-feedback text-danger">Please enter a valid email</small>
+                            <small *ngIf="form.get('email').touched && form.get('email').errors && form.get('email').hasError('email')" class="form-control-feedback text-danger">Please enter a valid email</small>
+                        </div>
+                    </div>
+					<div class="col-12 col-lg-4 col-xl-3">
+                        <div class="form-group" [ngClass]="{'has-danger': form.get('phone').touched && form.get('phone').errors}">
+                            <label class="form-control-label">Phone</label>
+                            <input type="text" class="form-control" name="phone" [(ngModel)]="phone" formControlName="phone" [ngClass]="{'form-control-danger': form.get('phone').touched && form.get('phone').errors}">
+                            <small *ngIf="form.get('phone').touched && form.get('phone').errors && form.get('phone').hasError('required')" class="form-control-feedback text-danger">Please enter a valid phone number</small>
+                        </div>
+                    </div>
+				</div>
+                      
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-info btn-outline btn-rounded" type="submit" name="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="user-profile-tabs-2">
+        <form [formGroup]="form2" (ngSubmit)="updatePassword()">
+            <div class="row">
+                <div class="col-12 col-lg-4 col-xl-3">
+                    <div class="form-group" [ngClass]="{'has-danger': form2.get('oldpassword').touched && form2.get('oldpassword').errors}">
+                        <label class="form-control-label">Old Password</label>
+                        <input type="password" class="form-control" name="oldpassword" [(ngModel)]="oldpassword" formControlName="oldpassword" [ngClass]="{'form-control-danger': form2.get('oldpassword').touched && form2.get('oldpassword').errors}">
+                        <small *ngIf="form2.get('oldpassword').touched && form2.get('oldpassword').errors && form2.get('oldpassword').hasError('required')" class="form-control-feedback text-danger">Please enter a valid Old password</small>
+                        <input type="hidden" name="id" [(ngModel)]="id" formControlName="id">
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-3">
+                    <div class="form-group" [ngClass]="{'has-danger': form2.get('newpassword').touched && form2.get('newpassword').errors}">
+                        <label class="form-control-label">New Password</label>
+                        <input type="password" [(ngModel)]="newpassword" class="form-control" name="password" formControlName="newpassword" [ngClass]="{'form-control-danger': form2.get('newpassword').touched && form2.get('newpassword').errors}">
+                        <small *ngIf="form2.get('newpassword').touched && form2.get('newpassword').errors && form2.get('newpassword').hasError('required')" class="form-control-feedback text-danger">Please enter a valid New password</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-4 col-xl-3">
+                    <div class="form-group" [ngClass]="{'has-danger': form2.get('confirmpassword').touched && form2.get('confirmpassword').errors}">
+                        <label class="form-control-label">Confirm Password</label>
+                        <input type="password" [(ngModel)]="confirmpassword" class="form-control" name="password" formControlName="confirmpassword" [ngClass]="{'form-control-danger': form2.get('confirmpassword').touched && form2.get('confirmpassword').errors}">
+                        <small *ngIf="form2.get('confirmpassword').touched && form2.get('confirmpassword').errors && form2.get('confirmpassword').hasError('required')" class="form-control-feedback text-danger">Please enter a valid Confirm password.</small>
+                        <small *ngIf="newpassword!==confirmpassword" class="form-control-feedback text-danger">New password and Confirm password should be same.</small>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-info btn-outline btn-rounded" type="submit" name="submit" [disabled]="newpassword!==confirmpassword">Submit</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+                                        <!--<div class="col">
+										<p>Profile Picture</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+																													<i class="sli-link"></i>
+																												</span>
+                                                    <input type="file" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+                                            <p>First name*</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+																													<i class="sli-user-follow"></i>
+																												</span>
+                                                    <input type="text" class="form-control" placeholder="Eric">
+                                                </div>
+                                            </div>
+                                            <p>Last name*</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+																													<i class="sli-user-following"></i>
+																												</span>
+                                                    <input type="text" class="form-control" placeholder="Simpson">
+                                                </div>
+                                            </div>
+                                            <p>Email Address*</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+																													<i class="sli-envelope"></i>
+																												</span>
+                                                    <input type="text" class="form-control" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <p>Mobile Number*</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+																													<i class="sli-phone"></i>
+																												</span>
+                                                    <input type="text" class="form-control" placeholder="Enter Mobile Number">
+                                                </div>
+                                            </div>
+                                            <p>Old Password*</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+																													<i class="sli-key"></i>
+																												</span>
+                                                    <input type="password" class="form-control" placeholder="Old Password">
+                                                </div>
+                                            </div>
+											<p>New Password*</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+																													<i class="sli-key"></i>
+																												</span>
+                                                    <input type="password" class="form-control" placeholder="Old Password">
+                                                </div>
+                                            </div>
+											<p>Confirm Password*</p>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+																													<i class="sli-key"></i>
+																												</span>
+                                                    <input type="password" class="form-control" placeholder="Confirm Password">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-primary">Update account settings</button>
+                                            </div>
+                                        </div>-->
+                        </div>
+						

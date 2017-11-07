@@ -1,0 +1,148 @@
+<!-- tables/datatable -->
+
+<div class="row">
+    <div class="col">
+        <div class="widget">
+            <div class="row">
+                <div class="col">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary btn-outline pull-right" data-toggle="modal" data-target="#add-space-package" style="margin-bottom:10px;">
+                            Add Space Package 
+                        </button>
+                    </div>
+                    <table [mfData]="spacepackages" #mf="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered associatives-table" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><mfDefaultSorter by="name">Name</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="data">Data</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="price">Price</mfDefaultSorter></th>
+                                <th>Discount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let spacepackage of mf.data; let i = index ">
+                                <td>{{i+1}}</td>
+                                <td>{{spacepackage.name}}</td>
+                                <td>{{spacepackage.data}} {{spacepackage.type}}</td>
+                                <td>
+                                <del *ngIf="spacepackage.final_price!==''">${{spacepackage.price}}</del>
+                                <span *ngIf="spacepackage.final_price!==''">${{spacepackage.final_price}}</span>
+                                <span *ngIf="spacepackage.final_price==''">${{spacepackage.price}}</span>
+                                </td>
+                                <td>{{spacepackage.offer}}</td>
+                                <td>{{spacepackage.status=='1' ? 'Active' : 'Inactive'}}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-circle btn-xs" data-original-title="Edit" data-placement="top" data-toggle="tooltip" type="button" (click) = "editPopup(spacepackage._id,spacepackage.name,spacepackage.data,spacepackage.type,spacepackage.price,spacepackage.offer)">
+                                        <i class="sli-pencil"></i>
+                                    </button>
+                                    <button data-placement="top" data-toggle="tooltip" data-original-title="Active/Inactive"  class="btn btn-success btn-circle btn-xs" type="button" (click) = "changeStatusPopup(spacepackage._id,spacepackage.status)">
+                                        <i class="sli-ban"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-circle btn-xs" type="button" data-toggle="modal" data-target="#remove" (click) = "deleteSpacePackages(i, spacepackage._id)">
+                                        <i class="sli-trash"></i>
+                                    </button>    
+                                </td>
+                            </tr>
+                            <tr *ngIf="spacepackages==''">
+                                <td colspan="7">No space packages found.</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end tables/datatable -->
+<button style="display: none;" id="openEditModal" data-target="#edit-space-package" data-toggle="modal"></button>
+
+<div aria-hidden="true" class="modal fade" id="edit-space-package" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Space Package</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form12" (ngSubmit)="editSpacePackages()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form12.get('name').touched && form12.get('name').errors}">
+                        <label>Name*</label>
+                        <input class="form-control" placeholder="Enter Name" type="text" name="name" formControlName="name" [(ngModel)]="name" [ngClass]="{'form-control-danger': form12.get('name').touched && form12.get('name').errors}">
+                        <small *ngIf="form12.get('name').touched && form12.get('name').errors && form12.get('name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid name</small>
+                        <input type="hidden" [(ngModel)]="id" name="id" formControlName="id">
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form12.get('type').touched && form12.get('type').errors}">
+                        <label>Type*</label>
+                        <select class="custom-select form-control" name="type" formControlName="type" [(ngModel)]="type" [ngClass]="{'form-control-danger': form12.get('type').touched && form12.get('type').errors}">
+                            <option value="">Choose an option</option>
+                            <option value="MB">MB</option>
+                            <option value="GB">GB</option>
+                            <option value="TB">TB</option>     
+                        </select>
+                    <small *ngIf="form12.get('type').touched && form12.get('type').errors && form12.get('type').hasError('required')" class="form-control-feedback text-danger">Please select a valid type</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form12.get('data').touched && form12.get('data').errors}">
+                        <label>Data*</label>
+                        <input class="form-control" placeholder="Enter Data" type="text" name="data" [(ngModel)]="data" formControlName="data" [ngClass]="{'form-control-danger': form12.get('data').touched && form12.get('data').errors}">
+                        <small *ngIf="form12.get('data').touched && form12.get('data').errors && form12.get('data').hasError('required')" class="form-control-feedback text-danger">Please enter a valid data</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form12.get('price').touched && form12.get('price').errors}">
+                        <label>Price (in dollars)*</label>
+                        <input class="form-control" placeholder="Enter Price" type="text" name="price" [(ngModel)]="price" formControlName="price" [ngClass]="{'form-control-danger': form12.get('price').touched && form12.get('price').errors}">
+                        <small *ngIf="form12.get('price').touched && form12.get('price').errors && form12.get('price').hasError('required')" class="form-control-feedback text-danger">Please enter a valid price</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Offer</label>
+                        <select class="custom-select form-control" name="offer1" formControlName="offer1" [(ngModel)]="offer1">
+                            <option value="">No Discount</option>
+                            <option value="%">Discount in %</option>
+                            <option value="$">Discount in dollars</option>    
+                        </select>
+                    </div>
+                    <div class="form-group" [hidden]="offer1==''">
+                        <label>Enter Amount (in {{offer1}})</label>
+                        <input class="form-control" placeholder="" type="text" name="offer2" formControlName="offer2" [(ngModel)]="offer2">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="editSpacePacCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- change status popup -->
+<button style="display: none;" id="openStatusModal" data-target="#change-status" data-toggle="modal"></button>
+<div aria-hidden="true" class="modal fade" id="change-status" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Status</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure ?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="changeStatusCloseButton">No</button>
+                <button class="btn btn-warning btn-rounded" type="button" (click) = "changeStatus()">Yes</button> 
+            </div>
+        </div>
+    </div>
+</div>

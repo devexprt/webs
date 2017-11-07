@@ -1,0 +1,18 @@
+.bg-img {
+    background-image: url('../../assets/images/polygonal.jpg');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+}
+.text-white { color: #ffffff;}
+.p-y-md { padding-top: 55px !important; padding-bottom: 40px !important;}
+ol.breadcrumb.m-b-0 { padding: 8px 0;}
+.page-head .breadcrumb {  background-color: transparent; font-weight: 400;}
+.breadcrumb>li { display: inline-block;}
+.page-head .breadcrumb .active.text-white { color: #fff;}
+.page-head .breadcrumb .active { font-weight: 900;}
+.breadcrumb>li+li:before { padding: 0 5px; color: #ccc; content: "/\00a0"; }
+.text-right { text-align: right;}
+h3, .h3 {font-weight: 400 !important; font-size: 34px; line-height: 38px;}
+a.inverse, .inverse a, i.inverse { color: #ffffff !important;}
+.section_title_blue > span, .section_title_white > span { color: #00a9f1;}

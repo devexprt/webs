@@ -1,0 +1,180 @@
+<section class="page-head bg-img p-y-md">
+	<div class="container pad-0">
+		<div class="row c2 h-bg text-white">
+			<div class="col-sm-6">
+				<h1 class="h3 f-w-900 m-b-0">Pricing</h1>
+			</div>
+			<div class="col-sm-6 text-right">
+				<ol class="breadcrumb m-b-0 pull-right">
+					<li>
+						<a routerLink="/" class="inverse">Home</a>
+					</li>
+					<li class="active text-white">Pricing</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="pricing" class="pricing-section padding bg-grey bd-bottom pricing_padd">
+	<div class="container">
+		<div class="section-heading text-center mb-40">
+
+			<div class="title-row"><h2 class="section_title_blue text-center">Choose A<span> Plan</span></h2></div>
+			<p class="no-margin">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		</div>
+
+		<div class="paricing-wrap">
+		   <div class="cd-pricing-switcher">
+				<p class="fieldset">
+
+					<input type="radio"  name="plan-switch" id="monthly1" (click)="priceShow('monthly','30')">
+					<label for="monthly1">Monthly</label>
+
+					<input type="radio" (click)="priceShow('quarterly','90')" name="plan-switch" id="quarterly1">
+					<label for="quarterly1" >Quarterly</label>
+
+					<input type="radio"  name="plan-switch" id="half-yearly1" (click)="priceShow('half-yearly','180')">
+					<label for="half-yearly1">Half Yearly</label>
+
+					<input type="radio"  name="plan-switch" id="yearly1" (click)="priceShow('yearly','360')">
+					<label for="yearly1">Yearly</label>
+
+					<span class="cd-switch"></span>
+				</p>
+			</div> <!-- .cd-pricing-switcher -->
+			<div class="row">
+				<div *ngFor="let packs of packages; let i=index " class="col-md-4 {{i==0 ? 'offset-md-2 fadeInUp sm-m-b-30' : 'fadeInLeft'}} col-xs-12 sm-padding wow" data-wow-delay="0ms" data-wow-duration="800ms" style="visibility: visible; animation-duration: 800ms; animation-delay: 0ms; animation-name: fadeInUp;">
+					<div class="pricing-box mid padding-35 ptb-30 bd hover_effect">
+					   <div class="pricing-head pb-10 text-center">
+							<i class="text-red icon-{{i==0 ? 'hotairballoon' : 'genius'}}"></i>
+							<h4 class=" fz-20 mt-15">{{packs.title}}</h4>
+							<h3 class="fz-45">
+<span *ngIf="priceVal=='monthly'" class="monthly-pack-price">{{packs.price=='0' ? 'Free' : '$'+packs.price}}</span> 
+<span *ngIf="priceVal=='quarterly'" class="quarterly-pack-price">{{packs.price1=='0' ? 'Free' : '$'+packs.price1}}</span> 
+<span *ngIf="priceVal=='half-yearly'" class="half-yearly-pack-price">{{packs.price2=='0' ? 'Free' : '$'+packs.price2}}</span> 
+<span *ngIf="priceVal=='yearly'" class="yearly-pack-price">{{packs.price3=='0' ? 'Free' : '$'+packs.price3}}</span> 
+							<span *ngIf="packs.price!=='0'" class="fz-16">only</span></h3>
+							<small>{{i==0 ? '&nbsp;' : 'One license included'}}</small>
+						</div>
+						<div class="pricing-content ptb-25">
+						   <ul class="pricing-list">
+							 <li *ngFor="let feature of packs.feature_arr">  {{feature}}</li>
+						   </ul>
+						</div>
+						<div class="pricing-footer text-center">
+							<a (click) = "selectPack(packs._id,packs.price)" class="btn btn-green text-uppercase">Select</a>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="col-md-4 col-xs-12 sm-padding wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="800ms" style="visibility: visible; animation-duration: 800ms; animation-delay: 0ms; animation-name: fadeInLeft;">
+					<div class="pricing-box mid padding-35 ptb-30 bd hover_effect">
+					   <div class="pricing-head text-center pb-10">
+							<i class="text-red icon-genius"></i>
+							<h4 class=" fz-20 mt-15">Professional</h4>
+							<h3 class="fz-45">$149 <span class="fz-16">only</span></h3>
+							<small>One license included</small>
+						</div>
+						<div class="pricing-content ptb-25">
+						   <ul class="pricing-list">
+							   <li>  Sites, Password and Wallet Manager</li>
+							   <li>  Invite friends from gmail, yahoo & Hotmail</li>
+							   <li>  Smail - Level based Messaging System</li>
+							   <li>  Manage your contacts and groups</li>
+							   <li>  File management System</li>
+							   <li>  Job Bidding System</li>
+							   <li>  Job Management System</li>
+							   <li>  24*7 Customer Support</li>
+						   </ul>
+						</div>
+						<div class="pricing-footer text-center">
+							<a href="signup.html" class="btn btn-green text-uppercase">Select</a>
+						</div>
+					</div>
+				</div> -->
+			</div> 
+		</div> 
+	</div>
+</section>
+
+<div class="help-btn-fixed"><a href="#" class="btn btn-green" data-toggle="modal" data-target="#help-pop"><i class="fa fa-question" aria-hidden="true"></i>&nbsp;Help</a></div>
+
+<div class="modal fade" id="help-pop" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Contact</h4>
+          <button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+        </div>
+        <form [formGroup]="form1" (ngSubmit)="addHelp()">
+        <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-danger': form1.get('first_name').touched && form1.get('first_name').errors}">
+                  <label for="userName">First Name*</label>
+                  <input type="text" name="first_name" placeholder="Enter First Name" class="form-control common-input" formControlName="first_name" [ngClass]="{'form-control-danger': form1.get('first_name').touched && form1.get('first_name').errors}">
+                  <small *ngIf="form1.get('first_name').touched && form1.get('first_name').errors && form1.get('first_name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid first name</small>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-danger': form1.get('last_name').touched && form1.get('last_name').errors}">
+		          <label for="userName">Last Name*</label>
+		          <input type="text" name="last_name" placeholder="Enter Last Name" class="form-control common-input" formControlName="last_name" [ngClass]="{'form-control-danger': form1.get('last_name').touched && form1.get('last_name').errors}">
+		          <small *ngIf="form1.get('last_name').touched && form1.get('last_name').errors && form1.get('last_name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid last name</small>
+        		</div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-danger': form1.get('email').touched && form1.get('email').errors}">
+				<label for="userName">Email*</label>
+				<input type="email" name="email" placeholder="Enter Email Address" class="form-control common-input" formControlName="email" [ngClass]="{'form-control-danger': form1.get('email').touched && form1.get('email').errors}">
+				<!-- <small *ngIf="form1.get('email').touched && form1.get('email').errors && form1.get('email').hasError('required')" class="form-control-feedback text-danger">Please enter a valid email</small> -->
+				<small *ngIf="form1.get('email').touched && form1.get('email').errors && form1.get('email').hasError('email')" class="form-control-feedback text-danger">Please enter a valid email</small>
+        		</div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-danger': form1.get('phone').touched && form1.get('phone').errors}">
+				<label for="userName">Phone*</label>
+				<input type="text" name="phone" placeholder="Enter Phone Number" class="form-control common-input" formControlName="phone" [ngClass]="{'form-control-danger': form1.get('phone').touched && form1.get('phone').errors}">
+				<small *ngIf="form1.get('phone').touched && form1.get('phone').errors && form1.get('phone').hasError('required')" class="form-control-feedback text-danger">Please enter a valid phone</small>
+        </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group" [ngClass]="{'has-danger': form1.get('address').touched && form1.get('address').errors}">
+				<label for="userName">Address*</label>
+				<textarea name="address" placeholder="Address" class="form-control common-input" formControlName="address" [ngClass]="{'form-control-danger': form1.get('address').touched && form1.get('address').errors}"></textarea>
+				<small *ngIf="form1.get('address').touched && form1.get('address').errors && form1.get('address').hasError('required')" class="form-control-feedback text-danger">Please enter a valid address</small>
+        </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-danger': form1.get('country').touched && form1.get('country').errors}">
+          <label for="lnameName">Country*</label>
+          <select name="country" class="form-control country_list common-input" formControlName="country" [ngClass]="{'form-control-danger': form1.get('country').touched && form1.get('country').errors}">
+          <option selected="" value="">Select Country</option>
+          <option *ngFor="let country of countries" value="{{country._id}}">{{country.name}}</option>
+          </select>
+          <small *ngIf="form1.get('country').touched && form1.get('country').errors && form1.get('country').hasError('required')" class="form-control-feedback text-danger">Please select a valid country</small>
+        </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-danger': form1.get('state').touched && form1.get('state').errors}">
+          <label for="lnameName">State*</label>
+          <select name="state" class="form-control state_list common-input" formControlName="state" [ngClass]="{'form-control-danger': form1.get('state').touched && form1.get('state').errors}">
+             <option selected="" value="">Select State</option>
+             <option *ngFor="let state of states" value="{{state._id}}">{{state.name}}</option>
+             </select>
+             <small *ngIf="form1.get('state').touched && form1.get('state').errors && form1.get('state').hasError('required')" class="form-control-feedback text-danger">Please select a valid state</small>
+        </div>
+            </div>
+        </div>		
+      </div>
+        <div class="modal-footer">       
+        <button type="submit" class="btn btn-blues mar-0">Submit</button>
+		<button type="button" id="helpCloseBtn" class="btn btn-default fnt-14-lh-nrm" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+      </div>
+      
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<!-- navbar-1 -->
+<nav class="navbar navbar-1">
+    <div class="logo">
+        <i class="sli-compass"></i>
+        <span class="title">Salvum</span>
+    </div>
+    <!-- toggle layout -->
+    <ul class="nav nav-inline navbar-left-1">
+        <li class="nav-item">
+            <a class="nav-link toggle-layout" (click)="toggleLayout()">
+                <i class="sli-arrow-right"></i>
+            </a>
+        </li>
+    </ul>
+    <!-- end toggle layout -->
+    <!-- search form -->
+    <!-- <div class="navbar-search-form">
+        <form>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="sli-magnifier"></i></span>
+                <input type="text" class="form-control" placeholder="Search...">
+            </div>
+        </form>
+    </div> -->
+    <!-- end search form -->
+
+    
+	<div class="separator"></div>
+	
+    <ul class="nav nav-inline navbar-left-2 pull-right" style="padding:0 32px;">
+        <li class="nav-item">
+            <!--<a class="nav-link toggle-fullscreen" (click)="toggleFullscreen()">
+                <i class="sli-size-fullscreen"></i>
+            </a>-->
+        </li>
+                <!--<dropdown-grid></dropdown-grid>
+                <dropdown-tasks></dropdown-tasks>-->
+                <dropdown-messages></dropdown-messages>
+    </ul>
+    <!-- navbar-right-->
+    <ul class="nav nav-inline navbar-right-1">
+				<dropdown-user></dropdown-user>
+				<!--<dropdown-flags></dropdown-flags>
+        <li class="nav-item">
+            <a class="nav-link toggle-right-sidebar" (click)="toggleRightSidebar()">
+                <i class="sli-settings"></i>
+            </a>
+        </li>-->
+        <li class="nav-item">
+            <a class="nav-link" (click) = "logOut()">
+                <i class="sli-login"></i>
+            </a>
+        </li>
+    </ul>
+    <!-- end navbar-right -->
+    <!-- navbar-right -->
+    <ul class="nav nav-inline navbar-right-2">
+        <li class="nav-item">
+            <a class="nav-link toggle-layout" (click)="toggleLayout()">
+                <i class="sli-menu"></i>
+            </a>
+        </li>
+    </ul>
+    <!-- end navbar-right -->
+</nav>
+<!-- end navbar-1 -->

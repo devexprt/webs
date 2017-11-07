@@ -1,0 +1,56 @@
+<!-- tables/datatable -->
+<div class="row">
+    <div class="col">
+        <div class="widget">
+            <div class="row">
+                <div class="col">
+                    <table [mfData]="users" #mf="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Profile Picture</th>
+                                <th><mfDefaultSorter by="name">Name</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="email">Email</mfDefaultSorter></th>
+                                <th>Status</th>
+                                <th>Package</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of mf.data; let i = index ">
+                                <td>{{i+1}}</td>
+                                <td>
+                                <img *ngIf="user.image==''" class="rounded-circle userpic-shadow" src="/assets/images/defaultuser.jpg" alt="" width="40">
+                                <img *ngIf="user.image!==''" class="rounded-circle userpic-shadow" src="{{APIURL}}/images/{{user.image}}" alt="" width="40">
+                                </td>
+                                <td>{{user.name}}</td>
+                                <td>{{user.email}}</td>
+                                <td>{{user.status=='1' ? 'Active' : (user.status=='0' ? 'Inactive' : 'New')}}</td>
+                                <td>{{user.package_price=='0' ? 'Basic' : 'Professional'}}</td>
+                                <td>
+									<button routerLink = "/pages/user-profile/{{user._id}}" class=" btn btn-warning btn-circle btn-xs" type="button">
+										<i class="sli-eye"></i>
+									</button>
+									<button class="btn btn-danger btn-circle btn-xs" type="button" data-toggle="modal" data-target="#remove" (click)="deleteUser(i, user._id)">
+										<i class="sli-trash"></i>
+									</button>
+								</td>
+                            </tr>
+                            <tr>
+                                <td *ngIf="users==''" colspan="7">No users found.</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end tables/datatable -->

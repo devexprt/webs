@@ -1,0 +1,173 @@
+<!-- tables/datatable -->
+
+<div class="row">
+    <div class="col">
+        <div class="widget">
+            <div class="row">
+                <div class="col">
+                <div class="col-md-12">
+					<button type="button" class="btn btn-primary btn-outline pull-right" data-toggle="modal" data-target="#add-sales-rep" style="margin-bottom:10px;">
+						Add Sales Rep
+					</button> 
+					</div>
+                    <table [mfData]="salesrep" #mf="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered salesrep-table" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><mfDefaultSorter by="first_name">Full Name</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="email">Email</mfDefaultSorter></th>
+                                <th>Address</th>
+                                <th><mfDefaultSorter by="region_name">Region</mfDefaultSorter></th>
+                                <th>Status</th>
+                                <th>Action &nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let sales of mf.data; let i = index ">
+                                <td>{{i+1}}</td>
+                                <td>{{sales.first_name}} {{sales.last_name}}</td>
+                                <td>{{sales.email}}</td>
+                                <td>{{sales.address}} {{sales.zip}},{{sales.state_name}} ({{sales.country_name}})</td>
+                                <td>{{sales.region_name}}</td>
+                                <td>{{sales.status=='1' ? 'Activated' : 'Blocked'}}</td> 
+                                <td>
+									<button data-placement="top" data-toggle="tooltip" data-original-title="Edit" class="btn btn-warning btn-circle btn-xs" type="button" (click) = "editPopup(sales._id,sales.first_name,sales.last_name,sales.email,sales.address,sales.zip,sales.state,sales.country,sales.region,sales.password)">
+										<i class="sli-pencil"></i>
+									</button>
+									<button class="btn btn-danger btn-circle btn-xs" type="button" data-toggle="modal" data-target="#remove" (click) = "deleteSalesRep(i, sales._id)">
+										<i class="sli-trash"></i>
+									</button>
+									<button data-placement="top" data-toggle="tooltip" data-original-title="Block"  class="btn btn-success btn-circle btn-xs" type="button" (click) = "changeStatusPopup(sales._id,sales.status)">
+										<i class="sli-ban"></i>
+									</button>
+									<button (click) = "signInSalesRep(sales._id)" data-placement="top" data-toggle="tooltip" data-original-title="Sign in"  class="btn btn-secondary btn-circle btn-xs" type="button">
+										<i class="sli-login"></i>
+									</button>
+									<!-- <button data-placement="top" data-toggle="tooltip" data-original-title="Leads"  class="btn btn-info btn-circle btn-xs" type="button">
+										<i class="sli-chart"></i>
+									</button> -->
+								</td>
+                            </tr>
+                            <tr *ngIf="salesrep==''">
+                                <td colspan="7">No salesrep found.</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end tables/datatable -->
+<button style="display: none;" id="openEditModal" data-target="#edit-sales-rep" data-toggle="modal"></button>
+
+<div aria-hidden="true" class="modal fade" id="edit-sales-rep" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Sales Rep</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form13" (ngSubmit)="editSalesRep()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form13.get('first_name').touched && form13.get('first_name').errors}">
+                        <label>First Name*</label>
+                        <input class="form-control" placeholder="Enter First Name" type="text" name="first_name" [(ngModel)]="first_name" formControlName="first_name" [ngClass]="{'form-control-danger': form13.get('first_name').touched && form13.get('first_name').errors}">
+                        <small *ngIf="form13.get('first_name').touched && form13.get('first_name').errors && form13.get('first_name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid first name</small>
+                        <input type="hidden" [(ngModel)]="id" name="id" formControlName="id">
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form13.get('last_name').touched && form13.get('last_name').errors}">
+                        <label>Last Name*</label>
+                        <input class="form-control" placeholder="Enter Last Name" type="text" name="last_name" formControlName="last_name" [(ngModel)]="last_name" [ngClass]="{'form-control-danger': form13.get('last_name').touched && form13.get('last_name').errors}">
+                        <small *ngIf="form13.get('last_name').touched && form13.get('last_name').errors && form13.get('last_name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid last name</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form13.get('email').touched && form13.get('email').errors}">
+                        <label>Email*</label>
+                        <input class="form-control" placeholder="Enter Email" type="email" [(ngModel)]="email" name="email" formControlName="email" [ngClass]="{'form-control-danger': form13.get('email').touched && form13.get('email').errors}">
+                        <small *ngIf="form13.get('email').touched && form13.get('email').errors && form13.get('email').hasError('required')" class="form-control-feedback text-danger">Please enter a valid email</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form13.get('password').touched && form13.get('password').errors}">
+                        <label>Password*</label>
+                        <input class="form-control" placeholder="Enter Password" type="password" name="password" [(ngModel)]="password" formControlName="password" [ngClass]="{'form-control-danger': form13.get('password').touched && form13.get('password').errors}">
+                        <small *ngIf="form13.get('password').touched && form13.get('password').errors && form13.get('password').hasError('required')" class="form-control-feedback text-danger">Please enter a valid password</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form13.get('confirm_password').touched && form13.get('confirm_password').errors}">
+                        <label>Confirm Password*</label>
+                        <input class="form-control" placeholder="Enter Password" type="password" [(ngModel)]="confirm_password" name="confirm_password" formControlName="confirm_password" [ngClass]="{'form-control-danger': form13.get('confirm_password').touched && form13.get('confirm_password').errors}">
+                        <small *ngIf="form13.get('confirm_password').touched && form13.get('confirm_password').errors && form13.get('confirm_password').hasError('required')" class="form-control-feedback text-danger">Please enter a valid password</small>
+                        <small class="form-control-feedback text-danger" *ngIf="password!==confirm_password">Passwords don't match</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form13.get('address').touched && form13.get('address').errors}">
+                        <label>Address*</label>
+                        <textarea class="form-control" placeholder="Enter Address"  name="address" [(ngModel)]="address" formControlName="address" [ngClass]="{'form-control-danger': form13.get('address').touched && form13.get('address').errors}"></textarea>
+                        <small *ngIf="form13.get('address').touched && form13.get('address').errors && form13.get('address').hasError('required')" class="form-control-feedback text-danger">Please enter a valid address</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form13.get('country').touched && form13.get('country').errors}">
+                        <label>Country*</label>
+                        <select class="custom-select form-control" name="country" formControlName="country" [(ngModel)]="country" [ngClass]="{'form-control-danger': form13.get('country').touched && form13.get('country').errors}">
+                            <option value="">Choose an option</option>
+                            <option *ngFor="let country of countries" value="{{country._id}}">{{country.name}}</option>
+                        </select>
+                    <small *ngIf="form13.get('country').touched && form13.get('country').errors && form13.get('country').hasError('required')" class="form-control-feedback text-danger">Please select a valid country</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form13.get('state').touched && form13.get('state').errors}">
+                        <label>State*</label>
+                        <select class="custom-select form-control" name="state" formControlName="state" [(ngModel)]="state" [ngClass]="{'form-control-danger': form13.get('state').touched && form13.get('state').errors}">
+                            <option selected="" value="">Choose an option</option>
+                            <option *ngFor="let state of states" value="{{state._id}}">{{state.name}}</option>
+                        </select>
+                    <small *ngIf="form13.get('state').touched && form13.get('state').errors && form13.get('state').hasError('required')" class="form-control-feedback text-danger">Please select a valid state</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form13.get('region').touched && form13.get('region').errors}">
+                        <label>Region*</label>
+                        <select class="custom-select form-control" name="region" formControlName="region" [(ngModel)]="region" [ngClass]="{'form-control-danger': form13.get('region').touched && form13.get('region').errors}">
+                            <option selected="" value="">Choose an option</option>
+                            <option *ngFor="let region of regions" value="{{region._id}}">{{region.region_name}}</option>
+                        </select>
+                    <small *ngIf="form13.get('region').touched && form13.get('region').errors && form13.get('region').hasError('required')" class="form-control-feedback text-danger">Please select a valid region</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form13.get('zip').touched && form13.get('zip').errors}">
+                        <label>Zip*</label>
+                        <input class="form-control" placeholder="Enter Zip" type="text" [(ngModel)]="zip" name="zip" formControlName="zip" [ngClass]="{'form-control-danger': form13.get('zip').touched && form13.get('zip').errors}">
+                        <small *ngIf="form13.get('zip').touched && form13.get('zip').errors && form13.get('zip').hasError('required')" class="form-control-feedback text-danger">Please enter a valid zip</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="editSalesCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit" [disabled]="password!==confirm_password">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- change status popup -->
+<button style="display: none;" id="openStatusModal" data-target="#change-status" data-toggle="modal"></button>
+<div aria-hidden="true" class="modal fade" id="change-status" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Status</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure ?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="changeStatusCloseButton">No</button>
+                <button class="btn btn-warning btn-rounded" type="button" (click) = "changeStatus()">Yes</button> 
+            </div>
+        </div>
+    </div>
+</div>

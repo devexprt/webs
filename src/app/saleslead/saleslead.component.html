@@ -1,0 +1,158 @@
+<!-- tables/datatable -->
+
+<div class="row">
+    <div class="col">
+        <div class="widget">
+            <div class="row">
+                <div class="col" *ngIf="currentNav=='adminNav'">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary btn-outline" (click) = "transferPopup()" style="margin-bottom:10px;">
+                    Transfer to another
+                </button>
+                </div>
+                    <table [mfData]="salesleads" #mf="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered associatives-table" style="width: 100%">
+                        <thead>
+                            <tr> 
+                                <th><input type="checkbox" [(ngModel)]="selectedAll" (change)="selectAll();"></th>
+                                <th><mfDefaultSorter by="name">Name</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="email">Email</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="phone">Phone</mfDefaultSorter></th>
+                                <th>Address</th>
+                                <th><mfDefaultSorter by="state_name">State</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="country_name">Country</mfDefaultSorter></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let saleslead of mf.data; let i=index ">
+                                <td><input type="checkbox" class="all_checkboxes" value="{{saleslead._id}}" [(ngModel)]="saleslead.selected" (change)="checkIfAllSelected(saleslead, i, $event);"></td>
+                                <td>{{saleslead.first_name}} {{saleslead.last_name}}</td>
+                                <td>{{saleslead.email}}</td>
+                                <td>{{saleslead.phone}}</td>
+                                <td> {{saleslead.address}}</td>
+                                <td>{{saleslead.state_name}}</td>
+                                <td>{{saleslead.country_name}}</td>
+                            </tr>  
+                            <tr *ngIf="salesleads==''">
+                                <td colspan="7">No salesleads found.</td>
+                            </tr>           
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="col" *ngIf="currentNav=='salesRepNav'">
+                    <table [mfData]="salesleads" #mf1="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered associatives-table" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><mfDefaultSorter by="name">Name</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="email">Email</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="phone">Phone</mfDefaultSorter></th>
+                                <th>Address</th>
+                                <th><mfDefaultSorter by="region_name">Region</mfDefaultSorter></th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let saleslead of mf1.data;let i=index ">
+                                <td>{{i+1}}</td>
+                                <td>{{saleslead.first_name}} {{saleslead.last_name}}</td>
+                                <td>{{saleslead.email}}</td>
+                                <td>{{saleslead.phone}}</td>
+                                <td>{{saleslead.address}} ({{saleslead.state_name}})</td>
+                                <td>{{saleslead.region_name}}</td>
+                                <td>{{saleslead.status == '0' ? "Waiting" : (saleslead.status == '2' ? "Signup Completed" : "Email sent") }}</td>
+                                <td>
+                                    <button *ngIf="saleslead.status!=='2'" type="button" class="btn btn-primary btn-outline pull-right" (click) = "makeOfferPopup(saleslead._id,saleslead.email,saleslead.first_name)">Make offer
+                                    </button> 
+                                    <span *ngIf="saleslead.status=='2'">---</span>
+                                </td>
+                            </tr> 
+                            <tr *ngIf="salesleads==''">
+                                <td colspan="8">No records found.</td>
+                            </tr>                          
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end tables/datatable -->
+<button style="display: none;" id="openOfferModal" data-target="#make-offer" data-toggle="modal"></button>
+
+<div aria-hidden="true" class="modal fade" id="make-offer" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Make Offer</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form1" (ngSubmit)="makeOffer()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form1.get('offer_price').touched && form1.get('offer_price').errors}">
+                        <label>Offer Price (in dollars)*</label>
+                        <input class="form-control" placeholder="Enter Price" type="number" name="offer_price" formControlName="offer_price" [(ngModel)]="offer_price" [ngClass]="{'form-control-danger': form1.get('offer_price').touched && form1.get('offer_price').errors}">
+                        <input type="hidden" name="id" formControlName="id" [(ngModel)]="id">
+                        <input type="hidden" name="email" formControlName="email" [(ngModel)] = "email">
+                        <input type="hidden" name="name" formControlName="name" [(ngModel)] = "name">
+                        <input type="hidden" name="baseUrl" formControlName="baseUrl" [(ngModel)] = "baseUrl">
+                    </div>
+                    <small *ngIf="form1.get('offer_price').touched && form1.get('offer_price').errors && form1.get('offer_price').hasError('required')" class="form-control-feedback text-danger">Please enter a valid price value</small>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="makeOfferCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<button style="display: none;" id="openTransferModal" data-target="#transfer-modal" data-toggle="modal"></button>
+
+<div aria-hidden="true" class="modal fade" id="transfer-modal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Transfer to:</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form3" (ngSubmit)="transferToAnother()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('sales_rep_id').touched && form3.get('sales_rep_id').errors}">
+                        <label>Sales Rep*</label>
+                        <select class="custom-select form-control" name="sales_rep_id" formControlName="sales_rep_id" [ngClass]="{'form-control-danger': form3.get('sales_rep_id').touched && form3.get('sales_rep_id').errors}">
+                            <option value="">Choose an option</option>
+                            <option *ngFor="let salesr of salesrep" value="{{salesr._id}}">{{salesr.first_name}} {{salesr.last_name}} <{{salesr.email}}></option>
+                        </select>
+                        <input type="hidden" name="ids" formControlName="ids" [(ngModel)] = "ids">
+                    <small *ngIf="form3.get('sales_rep_id').touched && form3.get('sales_rep_id').errors && form3.get('sales_rep_id').hasError('required')" class="form-control-feedback text-danger">Please select one option</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="transferCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

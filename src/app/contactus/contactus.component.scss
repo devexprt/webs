@@ -1,0 +1,89 @@
+@import "../styles/_bread";
+
+.utl-contact-des input[type="text"] {
+    margin-bottom: 0 !important;
+    width: 50% !important;
+}
+.contactus-wrap form textarea, .contactus-wrap form input[type="text"] {
+    border: 1px solid #dadada;
+    float: left;
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 30px;
+    padding: 19px 20px 21px;width:100%;
+}
+.utl-contact-des::before {
+    background: #dadada none repeat scroll 0 0;
+    bottom: 10px;
+    content: "";
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    width: 1px;
+}
+.btn, a.btn {
+    display: inline-block;
+    color: #ffffff;
+    padding: 12px 18px;
+    margin-bottom: 7px;
+    margin-right: 5px;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    white-space: pre-line;
+    text-align: center;
+    border-radius: 0px;
+    cursor: pointer;
+  
+    transition: all 0.3s ease-out;
+}
+
+.btn-green, a.inverse.btn-green, .inverse a.btn-green {
+    background-color: #ff7d19;
+    border: 1px #ff7d19 solid;
+}
+.utl-contact-des {
+    float: left;
+    margin-bottom: 30px;
+    position: relative;
+    width: 100%;
+}.utl-cnt li i {
+    background: #00a9f1 none repeat scroll 0 0;
+    float: left;
+    font-size: 30px;
+    height: 100px;
+    line-height: 97px;
+    text-align: center;
+    width: 93px;
+    color: #fff;
+}
+.overflow-contac {
+    float: none;
+    overflow: hidden;
+    padding: 16px;
+}
+.utl-cnt li {
+    border: 1px solid #dadada;
+    float: left;
+    margin-bottom: 30px;
+    width: 100%;
+    list-style: none;
+    height: 102px;
+}
+#about_description {
+    padding: 80px 0px; background:#fff !important;
+}p.txt-cont-h {
+    text-align: center;
+    padding: 0 80px;
+    font-size: 15px;
+    line-height: 26px;
+}.title-row {
+    display: table;
+    width: 100%;
+    padding-bottom: 20px;
+}.section_title_blue {
+    color: #0d1c42;
+}

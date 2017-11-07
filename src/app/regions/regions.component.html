@@ -1,0 +1,100 @@
+<!-- tables/datatable -->
+
+<div class="row">
+    <div class="col">
+        <div class="widget">
+            <div class="row">
+                <div class="col">
+					<div class="col-md-12">
+					<button type="button" class="btn btn-primary btn-outline pull-right" data-toggle="modal" data-target="#add-region" style="margin-bottom:10px;">
+						Add Region
+					</button>
+					</div>
+					
+                    <table [mfData]="regions" #mf="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered packages-features-table" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><mfDefaultSorter by="region_name">Region Name</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="country_name">Country</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="state_name">State</mfDefaultSorter></th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let region of mf.data; let i = index ">
+                                <td>{{i+1}}</td>
+                                <td>{{region.region_name}}</td>
+                                <td>{{region.country_name}}</td>
+                                <td>{{region.state_name}}</td>
+                                <td>
+									<button class="btn btn-warning btn-circle btn-xs" data-original-title="Edit" data-placement="top" data-toggle="tooltip" type="button" (click) = "editPopup(region._id,region.region_name,region.country_id,region.state_id)">
+										<i class="sli-pencil"></i>
+									</button>
+									<button class="btn btn-danger btn-circle btn-xs" type="button" data-toggle="modal" data-target="#remove" (click) = "deleteRegion(i, region._id)">
+										<i class="sli-trash"></i>
+									</button>
+								</td>
+                            </tr>
+                            <tr *ngIf="regions==''">
+                                <td colspan="5">No regions found.</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end tables/datatable -->
+<button style="display: none;" id="openEditModal" data-target="#edit-region" data-toggle="modal"></button>
+
+<div aria-hidden="true" class="modal fade" id="edit-region" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Region</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form11" (ngSubmit)="editRegion()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form11.get('region_name').touched && form11.get('region_name').errors}">
+                        <label>Name*</label>
+                        <input class="form-control" placeholder="Enter Name" type="text" name="region_name" [(ngModel)]="region_name" formControlName="region_name" [ngClass]="{'form-control-danger': form11.get('region_name').touched && form11.get('region_name').errors}">
+                        <small *ngIf="form11.get('region_name').touched && form11.get('region_name').errors && form11.get('region_name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid name</small>
+                        <input type="hidden" [(ngModel)]="id" name="id" formControlName="id">
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form11.get('country_id').touched && form11.get('country_id').errors}">
+                        <label>Country*</label>
+                        <select class="custom-select form-control" name="country_id" formControlName="country_id" [(ngModel)]="country_id" [ngClass]="{'form-control-danger': form11.get('country_id').touched && form11.get('country_id').errors}">
+                            <option value="">Choose an option</option>
+                            <option *ngFor="let country of countries" value="{{country._id}}">{{country.name}}</option>
+                        </select>
+                    <small *ngIf="form11.get('country_id').touched && form11.get('country_id').errors && form11.get('country_id').hasError('required')" class="form-control-feedback text-danger">Please select a valid country</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form11.get('state_id').touched && form11.get('state_id').errors}">
+                        <label>State*</label>
+                        <select class="custom-select form-control" name="state_id" formControlName="state_id" [(ngModel)]="state_id" [ngClass]="{'form-control-danger': form11.get('state_id').touched && form11.get('state_id').errors}">
+                            <option selected="" value="">Choose an option</option>
+                            <option *ngFor="let state of states" value="{{state._id}}">{{state.name}}</option>
+                        </select>
+                    <small *ngIf="form11.get('state_id').touched && form11.get('state_id').errors && form11.get('state_id').hasError('required')" class="form-control-feedback text-danger">Please select a valid state</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="editRegionCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

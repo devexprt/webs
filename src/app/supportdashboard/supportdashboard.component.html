@@ -1,0 +1,142 @@
+<!-- dashboards/dashboard -->
+<div class="row uptm-cols">
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-facebook color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        {{+openTickets+ +pendingTickets+ +closedTickets}}
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Total Tickets 
+                    </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-layers"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-warning color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        {{openTickets}}
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Open Tickets 
+                    </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-list"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-success color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        {{pendingTickets}}
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Pending Tickets
+                    </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-question"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-12 col-lg-3 m-b-20">
+        <div class="text-widget-1 bg-info color-white text-left radius">
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="title">
+                        {{closedTickets}}
+                    </div>
+                </div>
+            </div>
+            <div class="row flex-items-xs-middle">
+                <div class="col">
+                    <div class="subtitle">
+                        Closed Tickets
+                    </div>
+                </div>
+            </div>
+            <div class="icon-right">
+                <i class="sli-check"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-xl-12">
+        <div class="widget dashcols">
+            <div class="row">
+                <div class="col">
+                    <div class="title">Tickets revenue</div>
+                    <div class="description">Total tickets vers Closed tickets</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div id="line-chart-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xl-12" *ngIf="SupportType == 'admin'">
+        <div class="widget dashcols">
+            <div class="row">
+                <div class="col">
+                    <div class="title">Latest Agents</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">			
+						<table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Date Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let agent of allagents | slice:0:7">
+                                <td>{{agent.name}}</td>
+                                <td>{{agent.email}}</td>
+                                <td>
+                                	<span class="badge badge-sm badge-{{agent.status=='1' ? 'success' : 'danger'}}">{{agent.status=='1' ? 'Active' : 'Block'}}</span>
+                                </td>
+                                <td>{{agent.created_on | date:'medium'}}</td>
+                            </tr>
+                            <tr *ngIf="allagents==''">
+                                <td colspan="4">No records found.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+					
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

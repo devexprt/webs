@@ -1,0 +1,68 @@
+<div class="col-md-12">
+	<div class="row">
+		<div class="col-md-6">
+			<table class="table">
+                <tbody>
+	                <tr>
+	                    <td class="br-none"><strong>Title</strong></td>
+	                    <td class="br-none">:</td> 
+	                    <td class="br-none">{{ticket.title}}</td>
+	                </tr>                                           
+	                <tr>
+	                    <td class="br-none"><strong>Priority</strong></td>
+	                    <td class="br-none">:</td> 
+	                    <td class="br-none">
+	                    	<span class="badge badge-sm badge-{{ticket.priority=='low' ? 'danger' : (ticket.priority=='normal' ? 'info' : 'success')}}">{{ticket.priority}}</span>
+	                    </td>
+	                </tr>
+	                <tr>
+	                    <td class="br-none"> <strong>Status</strong></td>
+	                    <td class="br-none">:</td> 
+	                    <td class="br-none">
+	                        <label class="wait1">
+	                        	<span class="badge badge-sm badge-{{ticket.status=='pending' ? 'danger' : (ticket.status=='open' ? 'info' : 'success')}}">{{ticket.status}}</span>
+	                        </label>
+	                    </td>
+	                </tr>     
+	                <tr>
+	                    <td class="br-none"><strong>Message</strong></td>
+	                    <td class="br-none">:</td> 
+	                    <td class="br-none">{{ticket.detail}}</td>
+	                </tr>
+	                <tr>
+	                    <td class="br-none"><strong>Created on</strong></td>
+	                    <td class="br-none">:</td> 
+	                    <td class="br-none">{{ticket.created_on | date:'medium'}}</td>
+	                </tr>
+	            </tbody>
+        	</table>
+		</div>
+		<div class="col-md-6 box">
+			<div class="direct-chat-msg" *ngFor="let single_comment of ticket.comments">
+			    <div class="direct-chat-info clearfix">
+			        <span class="direct-chat-timestamp pull-right">{{single_comment.date | date: 'medium'}}</span>
+			    </div>
+			    <img *ngIf="single_comment.person_image !== ''" alt="image" src="{{APIURL}}/images/{{single_comment.person_image}}" class="direct-chat-img">
+			    <img *ngIf="single_comment.person_image == ''" alt="image" src="/assets/images/defaultuser.jpg" class="direct-chat-img" style="border: 1px solid #ccc;padding: 2px;">
+			    <div class="direct-chat-text">
+			        <h5 *ngIf="supportId == single_comment.person_id"> {{supportName}}</h5> 
+			        <h5 *ngIf="supportId !== single_comment.person_id"> {{single_comment.person_name}}</h5> 
+			        <p style="color:#8d8e8e">
+			        {{single_comment.comment}}
+			        </p>
+			    </div>
+			</div>
+			<form [formGroup]="form3" (ngSubmit)="addTicketComment()" *ngIf="ticket.status !== 'closed'">
+			<div class="form-group">
+                <textarea class="form-control" placeholder="Enter Comment..."  name="comment" formControlName="comment" [ngClass]="{'form-control-danger': form3.get('comment').touched && form3.get('comment').errors}"></textarea>
+                 <small *ngIf="form3.get('comment').touched && form3.get('comment').errors && form3.get('comment').hasError('required')" class="form-control-feedback text-danger">Please enter a valid comment</small>
+            </div>
+            <button class="btn btn-default btn-rounded" type="submit" id="addSalesCloseButton">Submit</button>
+            <button class="btn btn-warning btn-rounded pull-right" type="button" (click) = "changeTicketStatus('closed',ticket._id)">Close Ticket</button>
+            </form>
+            <div class="" *ngIf="ticket.status == 'closed'">
+            	<p>Ticket has been closed</p>
+            </div>
+		</div>
+	</div>
+</div>

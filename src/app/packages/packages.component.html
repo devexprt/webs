@@ -1,0 +1,121 @@
+<!-- tables/datatable -->
+
+<div class="row">
+    <div class="col">
+        <div class="widget">
+            <div class="row">
+                <div class="col">
+                    <table [mfData]="packages" #mf="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><mfDefaultSorter by="title">Title</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="price">Price ($/Per Month)</mfDefaultSorter></th>
+                                <th>Features</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let package of mf.data; let i = index ">
+                                <td>{{i+1}}</td>
+                                <td>{{package.title}}</td>
+                                <td>{{package.price}}</td>
+                                <td>
+									<ul>
+                                        <li *ngFor="let feature of package.feature_arr">
+                                            {{feature}}
+                                        </li>
+									</ul>
+								</td>
+                                <td>
+									<button class="btn btn-primary btn-circle btn-xs btn-outline" data-original-title="Edit" data-placement="top" data-toggle="tooltip" type="button" (click) = "editPopup(package._id,package.title,package.price,package.price1,package.price2,package.price3,package.features)">
+										<i class="sli-pencil"></i>
+									</button>
+								</td>
+                            </tr>
+                            <tr>
+                                <td *ngIf="packages==''" colspan="7">No packages found.</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end tables/datatable -->
+<button style="display: none;" id="openEditModal" data-target="#edit-packages" data-toggle="modal"></button>
+
+<div aria-hidden="true" class="modal fade" id="edit-packages" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Package</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form14" (ngSubmit)="editPackages()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form14.get('title').touched && form14.get('title').errors}">
+                        <label>Title*</label>
+                        <input class="form-control" placeholder="Enter Title" type="text" [(ngModel)]="title" name="title" formControlName="title" [ngClass]="{'form-control-danger': form14.get('title').touched && form14.get('title').errors}">
+                        <small *ngIf="form14.get('title').touched && form14.get('title').errors && form14.get('title').hasError('required')" class="form-control-feedback text-danger">Please enter a valid title</small>
+                        <input type="hidden" [(ngModel)]="id" name="id" formControlName="id">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Price*</label>
+                        <input class="form-control" placeholder="Enter Price/Monthly" type="text" [(ngModel)]="price" name="price" formControlName="price" [ngClass]="{'form-control-danger': form14.get('price').touched && form14.get('price').errors}">
+                        <small *ngIf="form14.get('price').touched && form14.get('price').errors && form14.get('price').hasError('required')" class="form-control-feedback text-danger">Please enter a price/monthly</small>
+
+                        <input class="form-control" placeholder="Enter Price/Quarterly" type="text" [(ngModel)]="price1" name="price1" formControlName="price1" [ngClass]="{'form-control-danger': form14.get('price1').touched && form14.get('price1').errors}">
+                        <small *ngIf="form14.get('price1').touched && form14.get('price1').errors && form14.get('price1').hasError('required')" class="form-control-feedback text-danger">Please enter a price/quarterly</small>
+
+                        <input class="form-control" placeholder="Enter Price/Half Yearly" type="text" [(ngModel)]="price2" name="price2" formControlName="price2" [ngClass]="{'form-control-danger': form14.get('price2').touched && form14.get('price2').errors}">
+                        <small *ngIf="form14.get('price2').touched && form14.get('price2').errors && form14.get('price2').hasError('required')" class="form-control-feedback text-danger">Please enter a price/half Yearly</small>
+
+                        <input class="form-control" placeholder="Enter Price/Yearly" type="text" [(ngModel)]="price3" name="price3" formControlName="price3" [ngClass]="{'form-control-danger': form14.get('price3').touched && form14.get('price3').errors}">
+                        <small *ngIf="form14.get('price3').touched && form14.get('price3').errors && form14.get('price3').hasError('required')" class="form-control-feedback text-danger">Please enter a price/Yearly</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Features*</label>
+                        <!-- <p>
+                        Sites
+                        <input class="form-control" type="checkbox" name="features" formControlName="features">
+                        </p> -->
+                        <ul class="add_features">
+                            <li *ngFor="let feature of allfeatures; let i=index "> 
+                                <div style="margin-right: 2%; display: inline-block;">{{feature.name}}</div>
+                                <div class="radio">
+                                    <input id="{{feature._id}}" class="form-control all_checked" type="radio" value="{{feature._id}}" name="features{{i}}" >
+                                    <label for="{{feature._id}}">
+                                    Yes
+                                    </label>
+                                </div> 
+                                <div class="radio">
+                                    <input id="no-{{feature._id}}" class="form-control no_checked" type="radio" name="features{{i}}">
+                                    <label for="no-{{feature._id}}"> 
+                                    No
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="editPackageCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

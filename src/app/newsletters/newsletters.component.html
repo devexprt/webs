@@ -1,0 +1,73 @@
+<!-- tables/datatable -->
+
+<div class="row">
+    <div class="col">
+        <div class="widget">
+            <div class="row">
+                <div class="col">
+                    <table [mfData]="newsletters" #mf="mfDataTable" [mfRowsOnPage]="10" class="table table-hover table-striped table-bordered associatives-table" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><mfDefaultSorter by="email">Email</mfDefaultSorter></th>
+                                <th><mfDefaultSorter by="date">Subscription Date</mfDefaultSorter></th>
+                                <th>Subscription Status</th>
+                                <th>Activation Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let newsletter of mf.data; let i = index ">
+                                <td>{{i+1}}</td>
+                                <td>{{newsletter.email}}</td>
+                                <td>{{newsletter.date}}</td>
+                                <td>{{newsletter.subscription_status=='1' ? 'Subscribed' : 'UnSubscribed'}}</td>
+                                <td>{{newsletter.active_status=='1' ? 'Activated' : 'In-Active'}}</td>
+                                <td>
+                                <button data-placement="top" data-toggle="tooltip" data-original-title="Active/Inactive"  class="btn btn-success btn-circle btn-xs" type="button" (click) = "changeStatusPopup(newsletter._id,newsletter.active_status)">
+                                    <i class="sli-ban"></i>
+                                </button>
+                                <button class="btn btn-danger btn-circle btn-xs" type="button" data-toggle="modal" data-target="#remove" (click) = "deleteNewsLetter(i, newsletter._id)">
+                                        <i class="sli-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="newsletters==''">
+                                <td colspan="6">No newsletters found.</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <mfBootstrapPaginator></mfBootstrapPaginator>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end tables/datatable -->
+<!-- change status popup -->
+<button style="display: none;" id="openStatusModal" data-target="#change-status" data-toggle="modal"></button>
+<div aria-hidden="true" class="modal fade" id="change-status" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Status</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure ?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="changeStatusCloseButton">No</button>
+                <button class="btn btn-warning btn-rounded" type="button" (click) = "changeStatus()">Yes</button> 
+            </div>
+        </div>
+    </div>
+</div>

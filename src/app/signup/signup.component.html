@@ -1,0 +1,173 @@
+<section class="page-head bg-img p-y-md">
+	<div class="container pad-0">
+		<div class="row c2 h-bg text-white">
+			<div class="col-sm-6">
+				<h1 class="h3 f-w-900 m-b-0">Sign Up</h1>
+			</div>
+			<div class="col-sm-6 text-right">
+				<ol class="breadcrumb m-b-0 pull-right">
+					<li>
+						<a routerLink="/" class="inverse">Home</a>
+					</li>
+					<li class="active text-white">Sign Up</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div class="bg-grey-nw">
+        <section class="pro_package container">
+		<div class="row p-0-15-sm">
+        <div class="col-md-1"></div>
+        
+     <div class="col-md-4 clear-sm" *ngIf="userId==undefined && userEmail==undefined ">
+					<div class="row p-0-15-sm">
+                <div class="col-md-12 right_div3">
+                  <div class="heading_two no-top-padding">
+                    <h4>{{packages.title}}</h4> 
+                  </div>
+                  <div class="price">
+                    <span class="quantity">{{package_price == '0' ? 'Free' : '$'+package_price}}</span>
+                  </div>
+                  <div class="total_price">
+                    <p class="monthly">{{selectedPackInterval}}</p>
+                  </div>
+                  <div class="total_price" *ngIf="edit_package!=='0'">
+                    <span style="width:200px;margin:auto;display:block;"><a routerLink="/frontindex/pricing" class="btn  btn-blues btn-md m-t-md text-uppercase smooth-scroll">Edit Package</a></span>
+                  </div>
+                <!--span class="selected-fe"><img src="images/selected.png" alt=""></span-->
+                  <div class="badge">
+                    <span>Selected</span>
+                  </div>
+                </div>
+                <div class="col-md-12 right_div" *ngIf="packages!==null && packages!=='' && packages.price!=='0'">
+                  <div class="heading_two">
+                    <h4>Add on License</h4> 
+                  </div>
+                  <select class="minimal" style="color:#000" (change)="onSelectLicense($event.target.value)">
+                    <option value="0/0">Select License</option>
+                    <option *ngFor="let license of licenses" value="{{license.start}}/{{license.price}}">{{license.start}}(+${{license.price}})</option>  
+                  </select>
+                  <div class="divider"></div>
+                  <div class="total_price">
+                    <p class="total">Package Price</p>  
+                    <p class="total_value">${{package_price}}/{{selectedPackInterval}}</p>
+                    <div class="clearfix"></div>
+                    <p class="total">License Price</p>  
+                    <p class="total_value">${{licensesPrice}}/{{selectedPackInterval}}</p>
+                    <div class="clearfix"></div>
+                    <p class="total">Total Price</p>  
+                    <p class="total_value">${{final_price}}/{{selectedPackInterval}}</p>
+                  </div>    
+                </div>
+                  </div>
+            </div>
+            <div class="col-md-6 col-xs-12 sm-m-b-30">
+            <div class="form-box wow fadeInUp  animated sign-up-main" id="signup2">
+              <div class="form-top">
+                <div class="form-top-left"> 
+                    <h3 class="heading">Sign up now</h3>      
+                </div>                           
+              </div>
+                <div class="form-bottom">
+                    <form [formGroup]="form1" (ngSubmit)="registerForm()">   
+                    <input name="package_id" type="hidden" formControlName="package_id" [(ngModel)] = "package_id">  
+                    <input name="package_price" type="hidden" formControlName="package_price" [(ngModel)] = "final_price">
+                    <input name="package_interval" type="hidden" formControlName="package_interval" [(ngModel)] = "package_interval">
+                    <input name="license_count" type="hidden" formControlName="license_count" [(ngModel)] = "license_count">
+                    <input name="baseUrl" type="hidden" formControlName="baseUrl" [(ngModel)] = "baseUrl">
+                    <input name="sales_rep_id" type="hidden" formControlName="sales_rep_id" [(ngModel)] = "sales_rep_id">
+                        <div class="form-group" [ngClass]="{'has-danger': form1.get('name').touched && form1.get('name').errors}">
+                          <input class="form-control nameDis" placeholder="Name" name="name" type="text" [(ngModel)] = "name" formControlName="name" [ngClass]="{'form-control-danger': form1.get('name').touched && form1.get('name').errors}">
+                          <small *ngIf="form1.get('name').touched && form1.get('name').errors && form1.get('name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid name</small>
+                        </div>
+                        <div class="form-group" [ngClass]="{'has-danger': form1.get('email').touched && form1.get('email').errors}">
+                          <input class="form-control emailId" placeholder="Email" name="email" type="text" [(ngModel)] = "email" formControlName="email" [ngClass]="{'form-control-danger': form1.get('email').touched && form1.get('email').errors}">
+                          <small *ngIf="form1.get('email').touched && form1.get('email').errors && form1.get('email').hasError('email')" class="form-control-feedback text-danger">Please enter a valid email</small>
+                        </div>    
+                        <div class="form-group" [ngClass]="{'has-danger': form1.get('password').touched && form1.get('password').errors}">
+                          <input class="form-control " placeholder="Password" name="password" type="password" [(ngModel)] = "password" formControlName="password" minlength="8" [ngClass]="{'form-control-danger': form1.get('password').touched && form1.get('password').errors}">
+                          <small *ngIf="form1.get('password').touched && form1.get('password').errors && form1.get('password').hasError('required')" class="form-control-feedback text-danger">Please enter a valid password</small>
+                          <small *ngIf="form1.get('password').touched && form1.get('password').errors && form1.get('password').hasError('minlength')" class="form-control-feedback text-danger">Password should be atleast 8 characters long.</small>
+                        </div>
+                        <div class="form-group" [ngClass]="{'has-danger': form1.get('confirm_password').touched && form1.get('confirm_password').errors}">
+                          <input class="form-control" placeholder="Verify Password" name="confirm_password" type="password" formControlName="confirm_password" [(ngModel)] = "confirm_password" [ngClass]="{'form-control-danger': form1.get('confirm_password').touched && form1.get('confirm_password').errors}">
+                          <small *ngIf="password!==confirm_password" class="form-control-feedback text-danger">Passwords should be same.</small>
+                        </div>
+                                <!--updated-->
+                    <div *ngIf="packages!==null && packages!=='' && packages.price!=='0'">       
+                      <div class="form-group" [ngClass]="{'has-danger': form1.get('card_number').touched && form1.get('card_number').errors}">
+                        <img src="../assets/images/cards.png" class="cards">
+                        <input class="form-control" minlength="10" placeholder="Debit/Credit Card Number" name="card_number" type="text" formControlName="card_number" [ngClass]="{'form-control-danger': form1.get('card_number').touched && form1.get('card_number').errors}">
+                        <small *ngIf="form1.get('card_number').touched && form1.get('card_number').errors && form1.get('card_number').hasError('required')" class="form-control-feedback text-danger">Please enter a valid card number</small>
+                        <small *ngIf="form1.get('card_number').touched && form1.get('card_number').errors && form1.get('card_number').hasError('minlength')" class="form-control-feedback text-danger">Please enter a valid card number</small>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <input class="form-control card_value" placeholder="CVC" name="cvv" formControlName="cvv" minlength="3" maxlength="4" [ngClass]="{'form-control-danger': form1.get('cvv').touched && form1.get('cvv').errors}">
+                            <small *ngIf="form1.get('cvv').touched && form1.get('cvv').errors && form1.get('cvv').hasError('required')" class="form-control-feedback text-danger">Please enter a valid cvv</small> 
+                            <small *ngIf="form1.get('cvv').touched && form1.get('cvv').errors && form1.get('cvv').hasError('minlength')" class="form-control-feedback text-danger">Please enter atleast 3 number cvv</small>  
+                          </div> 
+                          <div class="col-md-6">                                   
+                            <input class="form-control" placeholder="ZIP" name="zip" type="text" formControlName="zip" [ngClass]="{'form-control-danger': form1.get('zip').touched && form1.get('zip').errors}">
+                            <small *ngIf="form1.get('zip').touched && form1.get('zip').errors && form1.get('zip').hasError('required')" class="form-control-feedback text-danger">Please enter a valid zip</small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <select class="form-control card_value" name="expiry_month" formControlName="expiry_month" [ngClass]="{'form-control-danger': form1.get('expiry_month').touched && form1.get('expiry_month').errors}" >
+                              <option value="">Expiry Month</option>
+                              <option value="01">Jan (01)</option>
+                              <option value="02">Feb (02)</option>
+                              <option value="03">Mar (03)</option>
+                              <option value="04">Apr (04)</option>
+                              <option value="05">May (05)</option>
+                              <option value="06">June (06)</option>
+                              <option value="07">July (07)</option>
+                              <option value="08">Aug (08)</option>
+                              <option value="09">Sep (09)</option>
+                              <option value="10">Oct (10)</option>
+                              <option value="11">Nov (11)</option>
+                              <option value="12">Dec (12)</option>
+                            </select> 
+                            <small *ngIf="form1.get('expiry_month').touched && form1.get('expiry_month').errors && form1.get('expiry_month').hasError('required')" class="form-control-feedback text-danger">Please select a valid month</small>
+                          </div>
+                          <div class="col-md-6">
+                            <select class="form-control" name="expiry_year" formControlName="expiry_year" [ngClass]="{'form-control-danger': form1.get('expiry_year').touched && form1.get('expiry_year').errors}" >
+                              <option value="">Expiry Year</option>
+                              <option *ngFor="let year of years" value="{{year}}">{{year}}</option>
+                            </select>
+                            <small *ngIf="form1.get('expiry_year').touched && form1.get('expiry_year').errors && form1.get('expiry_year').hasError('required')" class="form-control-feedback text-danger">Please select a valid year</small>
+                          </div> 
+                        </div>
+                      </div>
+                      <div class="form-group" [ngClass]="{'has-danger': form1.get('address').touched && form1.get('address').errors}"> 
+                        <textarea class="form-control " placeholder="Address" name="address" formControlName="address" [ngClass]="{'form-control-danger': form1.get('address').touched && form1.get('address').errors}"></textarea>
+                        <small *ngIf="form1.get('address').touched && form1.get('address').errors && form1.get('address').hasError('required')" class="form-control-feedback text-danger">Please enter a valid address</small>
+                      </div>
+                      </div>
+                      <div class="form-group" [ngClass]="{'has-danger': form1.get('terms_checkbox').touched && form1.get('terms_checkbox').errors}">
+                        <input id="terms_checkbox" type="checkbox" formControlName="terms_checkbox" [ngClass]="{'form-control-danger': form1.get('terms_checkbox').touched && form1.get('terms_checkbox').errors}"> <label class="tkt"> I Agree to the 
+                          <a target="_blank">Terms of Use</a></label> 
+                          <div class="clearfix"></div>
+                          <small *ngIf="form1.get('terms_checkbox').touched && form1.get('terms_checkbox').errors && form1.get('terms_checkbox').hasError('required')" class="form-control-feedback text-danger">Please check terms of use</small>
+                      </div>
+                      <div class="form-group">
+                        <button [disabled]="password!==confirm_password" class="sign_up_btn btn btn-green text-uppercase smooth-scroll" type="submit">Sign Up</button>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">            
+                          <p> already have an account? <a routerLink="/pages/login">click here</a></p>
+                        </div> 
+                      </div>   
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div> 
+          </section>
+	      </div>

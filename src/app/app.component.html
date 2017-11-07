@@ -1,0 +1,389 @@
+<div *ngIf="layout == 'empty-view-1'">
+    <app-frontheader></app-frontheader>
+</div>
+<sample-modals *ngIf="controller == 'notifications' && view == 'modals'"></sample-modals>
+<right-sidebar-1 *ngIf="layout == 'default-sidebar-1' || layout == 'collapsed-sidebar-1' || layout == 'off-canvas-1' || layout == 'sidebar-over-1' || layout == 'top-navigation-1' || layout == 'top-navigation-2'"></right-sidebar-1>
+<navbar-1 *ngIf="layout == 'default-sidebar-1' || layout == 'collapsed-sidebar-1' || layout == 'off-canvas-1' || layout == 'sidebar-over-1' || layout == 'top-navigation-1' || layout == 'top-navigation-2'"></navbar-1>
+<top-navigation-1 *ngIf="layout == 'top-navigation-1'" ></top-navigation-1>
+<jumbotron-2 *ngIf="layout == 'top-navigation-2'"></jumbotron-2>
+<top-navigation-2 *ngIf="layout == 'top-navigation-2'"></top-navigation-2>
+
+    <div class="row full-width">
+			<div class="left-sidebar-placeholder" *ngIf="layout == 'default-sidebar-1' || layout == 'collapsed-sidebar-1' || layout == 'off-canvas-1' || layout == 'sidebar-over-1' || layout == 'top-navigation-1' || layout == 'top-navigation-2'"></div>
+			<left-sidebar-1 *ngIf="layout == 'default-sidebar-1' || layout == 'collapsed-sidebar-1' || layout == 'off-canvas-1' || layout == 'sidebar-over-1' || layout == 'top-navigation-1' || layout == 'top-navigation-2'"></left-sidebar-1>
+			<div class="col main">
+				<jumbotron-1 *ngIf="controller != 'dashboards' && (layout == 'default-sidebar-1' || layout == 'collapsed-sidebar-1' || layout == 'off-canvas-1' || layout == 'sidebar-over-1' || layout == 'top-navigation-1')"></jumbotron-1>
+				<div class="page">
+						<router-outlet></router-outlet>
+				</div>
+			</div>
+	</div>
+
+
+<!-- popup for delete notification -->
+<div aria-hidden="true" class="modal fade" id="remove" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure want to delete?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="removeCloseButton">No</button>
+                <button class="btn btn-warning btn-rounded" type="button" (click) = "confirmDelete()">Yes</button> 
+            </div>
+        </div>
+    </div>
+</div>
+<!-- popup for delete notification -->
+
+<!-- popup for add features -->
+
+<div aria-hidden="true" class="modal fade" id="add-features" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Feature</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form4" (ngSubmit)="addFeatures()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form4.get('name').touched && form4.get('name').errors}">
+                        <label>Name*</label>
+                        <input class="form-control" placeholder="Enter Feature" type="text" [(ngModel)]="ft_name" name="name" formControlName="name" [ngClass]="{'form-control-danger': form4.get('name').touched && form4.get('name').errors}">
+                        <small *ngIf="form4.get('name').touched && form4.get('name').errors && form4.get('name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid feature name</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="addFeatureCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- popup for add features -->
+
+<!-- popup for add License -->
+
+<div aria-hidden="true" class="modal fade" id="add-license" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add License</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form5" (ngSubmit)="addLicenses()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form5.get('start').touched && form5.get('start').errors}">
+                        <label>No. of license*</label>
+                        <input class="form-control" placeholder="Enter no. of license" type="number" name="start" formControlName="start" [ngClass]="{'form-control-danger': form5.get('start').touched && form5.get('start').errors}">
+                        <small *ngIf="form5.get('start').touched && form5.get('start').errors && form5.get('start').hasError('required')" class="form-control-feedback text-danger">Please enter a valid start value</small>
+                    </div>
+    				<!-- <div class="form-group" [ngClass]="{'has-danger': form5.get('end').touched && form5.get('end').errors}">
+                        <label>End*</label>
+                        <input class="form-control" placeholder="Enter End value" type="number" name="end" formControlName="end" [ngClass]="{'form-control-danger': form5.get('end').touched && form5.get('end').errors}">
+                        <small *ngIf="form5.get('end').touched && form5.get('end').errors && form5.get('end').hasError('required')" class="form-control-feedback text-danger">Please enter a valid end value</small>
+                    </div> -->
+    				<div class="form-group" [ngClass]="{'has-danger': form5.get('price').touched && form5.get('price').errors}">
+                        <label>Price*</label>
+                        <input class="form-control" placeholder="Enter Price" type="text" name="price" formControlName="price" [ngClass]="{'form-control-danger': form5.get('price').touched && form5.get('price').errors}">
+                        <small *ngIf="form5.get('price').touched && form5.get('price').errors && form5.get('price').hasError('required')" class="form-control-feedback text-danger">Please enter a valid price</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="addLicensesCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Add</button>
+                </div> 
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- popup for add License -->
+
+<!-- popup for add country -->
+
+<div aria-hidden="true" class="modal fade" id="add-country" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Country</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form" (ngSubmit)="addCountry()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form.get('name').touched && form.get('name').errors}">
+                        <label>Name*</label>
+                        <input class="form-control" placeholder="Enter Name" type="text" name="name" formControlName="name" [ngClass]="{'form-control-danger': form.get('name').touched && form.get('name').errors}">
+                        <small *ngIf="form.get('name').touched && form.get('name').errors && form.get('name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid name</small>
+                    </div>
+					<div class="form-group" [ngClass]="{'has-danger': form.get('iso_code_2').touched && form.get('iso_code_2').errors}">
+                        <label>Code*</label>
+                        <input class="form-control" placeholder="Enter Code" type="text" name="iso_code_2" formControlName="iso_code_2" [ngClass]="{'form-control-danger': form.get('iso_code_2').touched && form.get('iso_code_2').errors}">
+                        <small *ngIf="form.get('iso_code_2').touched && form.get('iso_code_2').errors && form.get('iso_code_2').hasError('required')" class="form-control-feedback text-danger">Please enter a valid code</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="addCountryCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- popup for add country -->
+
+<!-- popup for add state -->
+
+<div aria-hidden="true" class="modal fade" id="add-state" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add State</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form1" (ngSubmit)="addState()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form1.get('country_id').touched && form1.get('country_id').errors}">
+                        <label>Select Country*</label>
+    					<select class="custom-select form-control" name="country_id" formControlName="country_id" [ngClass]="{'form-control-danger': form1.get('country_id').touched && form1.get('country_id').errors}">
+                            <option selected="" value="">Choose an option</option>
+                            <option *ngFor="let country of countries" value="{{country._id}}">{{country.name}}</option>
+                        </select>
+                    <small *ngIf="form1.get('country_id').touched && form1.get('country_id').errors && form1.get('country_id').hasError('required')" class="form-control-feedback text-danger">Please select a valid country</small>
+                    </div>
+    				<div class="form-group" [ngClass]="{'has-danger': form1.get('name').touched && form1.get('name').errors}">
+                        <label>State Name*</label>
+                        <input class="form-control" placeholder="Enter Name" type="text" name="name" formControlName="name" [ngClass]="{'form-control-danger': form1.get('name').touched && form1.get('name').errors}">
+                    </div>
+                    <small *ngIf="form1.get('name').touched && form1.get('name').errors && form1.get('name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid name</small>
+    				<div class="form-group" [ngClass]="{'has-danger': form1.get('code').touched && form1.get('code').errors}">
+                        <label>State Code*</label>
+                        <input class="form-control" placeholder="Enter Code" type="text" name="code" formControlName="code" [ngClass]="{'form-control-danger': form1.get('code').touched && form1.get('code').errors}">
+                        <small *ngIf="form1.get('code').touched && form1.get('code').errors && form1.get('code').hasError('required')" class="form-control-feedback text-danger">Please enter a valid code</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="addStateCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- popup for add State -->
+
+<!-- popup for add region -->
+
+<div aria-hidden="true" class="modal fade" id="add-region" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Region</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form2" (ngSubmit)="addRegion()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form2.get('region_name').touched && form2.get('region_name').errors}">
+                        <label>Name*</label>
+                        <input class="form-control" placeholder="Enter Name" type="text" name="region_name" formControlName="region_name" [ngClass]="{'form-control-danger': form2.get('region_name').touched && form2.get('region_name').errors}">
+                        <small *ngIf="form2.get('region_name').touched && form2.get('region_name').errors && form2.get('region_name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid name</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form2.get('country_id').touched && form2.get('country_id').errors}">
+                        <label>Country*</label>
+                        <select class="custom-select form-control" name="country_id" formControlName="country_id" [ngClass]="{'form-control-danger': form2.get('country_id').touched && form2.get('country_id').errors}">
+                            <option value="">Choose an option</option>
+                            <option *ngFor="let country of countries" value="{{country._id}}">{{country.name}}</option>
+                        </select>
+                    <small *ngIf="form2.get('country_id').touched && form2.get('country_id').errors && form2.get('country_id').hasError('required')" class="form-control-feedback text-danger">Please select a valid country</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form2.get('state_id').touched && form2.get('state_id').errors}">
+                        <label>State*</label>
+                        <select class="custom-select form-control" name="state_id" formControlName="state_id" [ngClass]="{'form-control-danger': form2.get('state_id').touched && form2.get('state_id').errors}">
+                            <option selected="" value="">Choose an option</option>
+                            <option *ngFor="let state of states" value="{{state._id}}">{{state.name}}</option>
+                        </select>
+                    <small *ngIf="form2.get('state_id').touched && form2.get('state_id').errors && form2.get('state_id').hasError('required')" class="form-control-feedback text-danger">Please select a valid state</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="addRegionCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- popup for add region -->
+
+<!-- popup for add sales rep -->
+
+<div aria-hidden="true" class="modal fade" id="add-sales-rep" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Sales Rep</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form3" (ngSubmit)="addSalesRep()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('first_name').touched && form3.get('first_name').errors}">
+                        <label>First Name*</label>
+                        <input class="form-control" placeholder="Enter First Name" type="text" name="first_name" formControlName="first_name" [ngClass]="{'form-control-danger': form3.get('first_name').touched && form3.get('first_name').errors}">
+                        <small *ngIf="form3.get('first_name').touched && form3.get('first_name').errors && form3.get('first_name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid first name</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('last_name').touched && form3.get('last_name').errors}">
+                        <label>Last Name*</label>
+                        <input class="form-control" placeholder="Enter Last Name" type="text" name="last_name" formControlName="last_name" [ngClass]="{'form-control-danger': form3.get('last_name').touched && form3.get('last_name').errors}">
+                        <small *ngIf="form3.get('last_name').touched && form3.get('last_name').errors && form3.get('last_name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid last name</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('email').touched && form3.get('email').errors}">
+                        <label>Email*</label>
+                        <input class="form-control" placeholder="Enter Email" type="email" name="email" formControlName="email" [ngClass]="{'form-control-danger': form3.get('email').touched && form3.get('email').errors}">
+                        <small *ngIf="form3.get('email').touched && form3.get('email').errors && form3.get('email').hasError('required')" class="form-control-feedback text-danger">Please enter a valid email</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('password').touched && form3.get('password').errors}">
+                        <label>Password*</label>
+                        <input class="form-control" placeholder="Enter Password" type="password" name="password" [(ngModel)]="password" formControlName="password"  [ngClass]="{'form-control-danger': form3.get('password').touched && form3.get('password').errors}">
+                        <small *ngIf="form3.get('password').touched && form3.get('password').errors && form3.get('password').hasError('required')" class="form-control-feedback text-danger">Please enter a valid password</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('confirm_password').touched && form3.get('confirm_password').errors}">
+                        <label>Confirm Password*</label>
+                        <input class="form-control" placeholder="Enter Password" type="password" [(ngModel)]="confirm_password" name="confirm_password" formControlName="confirm_password" [ngClass]="{'form-control-danger': form3.get('confirm_password').touched && form3.get('confirm_password').errors}">
+                        <small *ngIf="form3.get('confirm_password').touched && form3.get('confirm_password').errors && form3.get('confirm_password').hasError('required')" class="form-control-feedback text-danger">Please enter a valid password</small>
+                        <small class="form-control-feedback text-danger" *ngIf="password!==confirm_password">Passwords don't match</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('address').touched && form3.get('address').errors}">
+                        <label>Address*</label>
+                        <textarea class="form-control" placeholder="Enter Address"  name="address" formControlName="address" [ngClass]="{'form-control-danger': form3.get('address').touched && form3.get('address').errors}"></textarea>
+                        <small *ngIf="form3.get('address').touched && form3.get('address').errors && form3.get('address').hasError('required')" class="form-control-feedback text-danger">Please enter a valid address</small>
+                    </div>
+    				<div class="form-group" [ngClass]="{'has-danger': form3.get('country').touched && form3.get('country').errors}">
+                        <label>Country*</label>
+                        <select class="custom-select form-control" name="country" formControlName="country" [ngClass]="{'form-control-danger': form3.get('country').touched && form3.get('country').errors}">
+                            <option value="">Choose an option</option>
+                            <option *ngFor="let country of countries" value="{{country._id}}">{{country.name}}</option>
+                        </select>
+                    <small *ngIf="form3.get('country').touched && form3.get('country').errors && form3.get('country').hasError('required')" class="form-control-feedback text-danger">Please select a valid country</small>
+                    </div>
+    				<div class="form-group" [ngClass]="{'has-danger': form3.get('state').touched && form3.get('state').errors}">
+                        <label>State*</label>
+                        <select class="custom-select form-control" name="state" formControlName="state" [ngClass]="{'form-control-danger': form3.get('state').touched && form3.get('state').errors}">
+                            <option selected="" value="">Choose an option</option>
+                            <option *ngFor="let state of states" value="{{state._id}}">{{state.name}}</option>
+                        </select>
+                    <small *ngIf="form3.get('state').touched && form3.get('state').errors && form3.get('state').hasError('required')" class="form-control-feedback text-danger">Please select a valid state</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('region').touched && form3.get('region').errors}">
+                        <label>Region*</label>
+                        <select class="custom-select form-control" name="region" formControlName="region" [ngClass]="{'form-control-danger': form3.get('region').touched && form3.get('region').errors}">
+                            <option selected="" value="">Choose an option</option>
+                            <option *ngFor="let region of regions" value="{{region._id}}">{{region.region_name}}</option>
+                        </select>
+                    <small *ngIf="form3.get('region').touched && form3.get('region').errors && form3.get('region').hasError('required')" class="form-control-feedback text-danger">Please select a valid region</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form3.get('zip').touched && form3.get('zip').errors}">
+                        <label>Zip*</label>
+                        <input class="form-control" placeholder="Enter Zip" type="text" name="zip" formControlName="zip" [ngClass]="{'form-control-danger': form3.get('zip').touched && form3.get('zip').errors}">
+                        <small *ngIf="form3.get('zip').touched && form3.get('zip').errors && form3.get('zip').hasError('required')" class="form-control-feedback text-danger">Please enter a valid zip</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="addSalesCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit" [disabled]="password!==confirm_password">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- popup for add sales rep -->
+
+<!-- popup for space packages region -->
+
+<div aria-hidden="true" class="modal fade" id="add-space-package" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Space Package</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form6" (ngSubmit)="addSpacePackages()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form6.get('name').touched && form6.get('name').errors}">
+                        <label>Name*</label>
+                        <input class="form-control" placeholder="Enter Name" type="text" name="name" formControlName="name" [ngClass]="{'form-control-danger': form6.get('name').touched && form6.get('name').errors}">
+                        <small *ngIf="form6.get('name').touched && form6.get('name').errors && form6.get('name').hasError('required')" class="form-control-feedback text-danger">Please enter a valid name</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form6.get('type').touched && form6.get('type').errors}">
+                        <label>Type*</label>
+                        <select class="custom-select form-control" name="type" formControlName="type" [ngClass]="{'form-control-danger': form6.get('type').touched && form6.get('type').errors}">
+                            <option value="">Choose an option</option>
+                            <option value="MB">MB</option>
+                            <option value="GB">GB</option>
+                            <option value="TB">TB</option>     
+                        </select>
+                    <small *ngIf="form6.get('type').touched && form6.get('type').errors && form6.get('type').hasError('required')" class="form-control-feedback text-danger">Please select a valid type</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form6.get('data').touched && form6.get('data').errors}">
+                        <label>Data*</label>
+                        <input class="form-control" placeholder="Enter Data" type="text" name="data" formControlName="data" [ngClass]="{'form-control-danger': form6.get('data').touched && form6.get('data').errors}">
+                        <small *ngIf="form6.get('data').touched && form6.get('data').errors && form6.get('data').hasError('required')" class="form-control-feedback text-danger">Please enter a valid data</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form6.get('price').touched && form6.get('price').errors}">
+                        <label>Price (in dollars)*</label>
+                        <input class="form-control" placeholder="Enter Price" type="text" name="price" formControlName="price" [ngClass]="{'form-control-danger': form6.get('price').touched && form6.get('price').errors}">
+                        <small *ngIf="form6.get('price').touched && form6.get('price').errors && form6.get('price').hasError('required')" class="form-control-feedback text-danger">Please enter a valid price</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Offer</label>
+                        <select class="custom-select form-control" name="offer1" formControlName="offer1" [(ngModel)]="offer1">
+                            <option value="">No Discount</option>
+                            <option value="%">Discount in %</option>
+                            <option value="$">Discount in dollars</option>    
+                        </select>
+                    </div>
+                    <div class="form-group" [hidden]="offer1==''">
+                        <label>Enter Amount (in {{offer1}})</label>
+                        <input class="form-control" placeholder="" type="text" name="offer2" formControlName="offer2">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="addSpacePacCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- popup for space packages -->
+
+<!-- <backdrops></backdrops> -->
+<div *ngIf="layout == 'empty-view-1'">
+<app-frontfooter></app-frontfooter>
+</div> 

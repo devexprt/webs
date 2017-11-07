@@ -1,0 +1,69 @@
+<div class="col-md-12" *ngIf="SupportType == 'admin'">
+	<button type="button" class="btn btn-primary btn-outline pull-right" data-toggle="modal" data-target="#add-faq" style="margin-bottom:10px;">
+		Add Faqs
+	</button>
+</div>
+<div class="clearfix"></div>
+<div class="col-md-12 form-group">
+	<div class="input-group">
+        <span class="input-group-addon">
+        <i class="sli-magnifier"></i>
+        </span> 
+		<input type="text" class="form-control" placeholder="Search..." [(ngModel)] = "searchTxt">
+	</div>
+</div>
+<div class="clearfix"></div>
+<div class="container">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default" *ngFor="let faq of faqs; let i = index ">
+            <div class="panel-heading" role="tab" id="{{faq._id}}">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#id{{i}}" aria-expanded="true">
+                        <i class="more-less sli-arrow-down"></i>
+                        Q.{{i+1}}- {{faq.question}}
+                    </a>
+                </h4>
+            </div>
+            <div id="id{{i}}" class="panel-collapse collapse" role="tabpanel">
+                <div class="panel-body">
+                      {{faq.answer}}
+                      <div class="clearfix"></div>
+                      <button *ngIf="SupportType == 'admin'" class="btn btn-danger btn-circle btn-xs" type="button" data-toggle="modal" data-target="#remove" (click) = "deleteFaqs(i, faq._id)">
+						 <i class="sli-trash"></i>
+					  </button>
+                </div>
+            </div>
+        </div>
+    </div><!-- panel-group -->   
+</div><!-- container -->
+<div class="clearfix"></div>
+<div aria-hidden="true" class="modal fade" id="add-faq" role="dialog" tabindex="-1" style="top: 10%">
+    <div class="modal-dialog modal-default" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Faq</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form [formGroup]="form4" (ngSubmit)="addFaqs()">
+                <div class="modal-body">
+                    <div class="form-group" [ngClass]="{'has-danger': form4.get('question').touched && form4.get('question').errors}">
+                        <label>Question*</label>
+                        <input class="form-control" placeholder="Enter Question" type="text" [(ngModel)]="question" name="question" formControlName="question" [ngClass]="{'form-control-danger': form4.get('question').touched && form4.get('question').errors}">
+                        <small *ngIf="form4.get('question').touched && form4.get('question').errors && form4.get('question').hasError('required')" class="form-control-feedback text-danger">Please enter a valid question</small>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-danger': form4.get('answer').touched && form4.get('answer').errors}">
+                        <label>Answer*</label>
+                        <textarea class="form-control" placeholder="Enter Answer"  name="answer" formControlName="answer" [ngClass]="{'form-control-danger': form4.get('answer').touched && form4.get('answer').errors}"></textarea>
+                        <small *ngIf="form4.get('answer').touched && form4.get('answer').errors && form4.get('answer').hasError('required')" class="form-control-feedback text-danger">Please enter a valid answer</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default btn-rounded" data-dismiss="modal" type="button" id="addFaqsCloseButton">Cancel</button>
+                    <button class="btn btn-warning btn-rounded" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
