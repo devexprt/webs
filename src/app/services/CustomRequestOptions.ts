@@ -26,8 +26,8 @@ export class CommonRequestOptions extends RequestOptions {
  */
 export function extracted(options: RequestOptionsArgs) {
   if (!validUrl(options.url)) {
-    options.url = 'http://54.89.30.156:3002/' + (options.url ? options.url : "");
-    localStorage.setItem('APIURL','http://54.89.30.156:3002');
+    options.url = 'https://54.89.30.156:3002/' + (options.url ? options.url : "");
+    localStorage.setItem('APIURL','https://54.89.30.156:3002');
   }
   
 
